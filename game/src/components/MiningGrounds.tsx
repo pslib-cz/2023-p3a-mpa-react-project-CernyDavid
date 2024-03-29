@@ -1,9 +1,9 @@
 import { ResourcesContext } from "../providers/ResourcesProvider";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const MiningGrounds = () => {
-    const resources = useContext(ResourcesContext).resources;
-    const updateResources = useContext(ResourcesContext).updateResources;
+    const { resources, updateResources } = useContext(ResourcesContext);
+    const [metalMiningUnits, setMetalMiningUnits] = useState<number>(0);
 
     useEffect(() => {
         const metal = parseInt(localStorage.getItem('metal') || '0');
@@ -12,28 +12,44 @@ const MiningGrounds = () => {
         updateResources({ metal, crystal, gemstone });
     }, []);
 
-    const mineMetal = () => {
-        updateResources({ metal: resources.metal + 1, crystal: resources.crystal, gemstone: resources.gemstone });
-        localStorage.setItem('metal', (resources.metal + 1).toString());
+    useEffect(() => {
+        let interval: number;
+        if (metalMiningUnits > 0) {
+            interval = setInterval(() => {
+                mineMetal(metalMiningUnits);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [resources.metal, metalMiningUnits]);
+
+    const mineMetal = (amount : number) => {
+        const newMetalAmount = resources.metal + amount;
+        updateResources({ metal: newMetalAmount, crystal: resources.crystal, gemstone: resources.gemstone });
+        localStorage.setItem('metal', newMetalAmount.toString());
     }
-    const mineCrystal = () => {
-        updateResources({ metal: resources.metal, crystal: resources.crystal + 1, gemstone: resources.gemstone });
-        localStorage.setItem('crystal', (resources.crystal + 1).toString());
+
+    const mineCrystal = (amount : number) => {
+        const newCrystalAmount = resources.crystal + amount;
+        updateResources({ metal: resources.metal, crystal: newCrystalAmount, gemstone: resources.gemstone });
+        localStorage.setItem('crystal', newCrystalAmount.toString());
     }
-    const mineGemstone = () => {
-        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: resources.gemstone + 1 });
-        localStorage.setItem('gemstone', (resources.gemstone + 1).toString());
+
+    const mineGemstone = (amount : number) => {
+        const newGemstoneAmount = resources.gemstone + amount;
+        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstoneAmount });
+        localStorage.setItem('gemstone', newGemstoneAmount.toString());
     }
 
     return (
         <div>
             <h1>Mining Grounds</h1>
             <p>Metal: {resources.metal}</p>
-            <button onClick={mineMetal}>Mine Metal</button>
+            <button onClick={() => mineMetal(1)}>Mine Metal</button>
+            <button onClick={() => setMetalMiningUnits(metalMiningUnits + 1)}>Add Miner</button>
             <p>Crystal: {resources.crystal}</p>
-            <button onClick={mineCrystal}>Mine Crystal</button>
+            <button onClick={() => mineCrystal(1)}>Mine Crystal</button>
             <p>Gemstone: {resources.gemstone}</p>
-            <button onClick={mineGemstone}>Mine Gemstone</button>
+            <button onClick={() => mineGemstone(1)}>Mine Gemstone</button>
         </div>
     );
 }
