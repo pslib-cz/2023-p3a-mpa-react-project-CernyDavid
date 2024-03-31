@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { ResourcesContext } from '../providers/ResourcesProvider';
 import { BuildingsContext } from '../providers/BuildingsProvider';
 import { SoldiersContext } from '../providers/SoldiersProvider';
+import { Link } from 'react-router-dom';
 
 const Base = () => {
     const resources = useContext(ResourcesContext).resources;
@@ -73,10 +74,14 @@ const Base = () => {
         setMainframeLevel(0);
         setArmoryLevel(0);
         setArdcLevel(0);
+        setAaibaAvailable(0);
+        setAaibaLevel(0);
+        setSlaughterersAvailable(0);
+        setSlaughterersLevel(0);
     };
 
     const createAaiba = () => {
-        if (aaibaAvailable + slaughterersAvailable < barracksLevel * 2) {
+        if (aaibaAvailable + slaughterersAvailable > barracksLevel * 2) {
             return;
         }
         const newAaibaAvailable = aaibaAvailable + 1;
@@ -85,7 +90,7 @@ const Base = () => {
     }
 
     const createSlaughterer = () => {
-        if (aaibaAvailable + slaughterersAvailable < barracksLevel * 2) {
+        if (aaibaAvailable + slaughterersAvailable > barracksLevel * 2) {
             return;
         }
         const newSlaughterersAvailable = slaughterersAvailable + 1;
@@ -135,6 +140,8 @@ const Base = () => {
             <p>Slaughterers level: {slaughterersLevel}</p>
             <button onClick={() => upgradeSlaughterer()}>Upgrade Slaughterer</button>
             <button onClick={() => reset()}>Reset</button>
+            <Link to="/battle">Battlefield</Link>
+            <Link to="/mining">Mining Grounds</Link>
         </div>
     );
 };

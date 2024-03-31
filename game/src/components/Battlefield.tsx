@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { ResourcesContext } from '../providers/ResourcesProvider';
 import { SoldiersContext } from '../providers/SoldiersProvider';
+import { Link } from 'react-router-dom';
 
 export type Enemy = {
     name: string;
@@ -78,6 +79,8 @@ const Battlefield = () => {
             <button onClick={() => deploySlaughterer()}>Deploy Slaughterer</button>
             <h2>Enemy</h2>
             <p>{getCurrentEnemy().name}, level: {getCurrentEnemy().level}</p>
+            <Link to="/base">Base</Link>
+            <Link to="/mining">Mining Grounds</Link>
         </div>
     );
 };

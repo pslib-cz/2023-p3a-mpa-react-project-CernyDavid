@@ -1,6 +1,7 @@
 import { ResourcesContext } from "../providers/ResourcesProvider";
 import { useContext, useEffect, useState } from "react";
 import { BuildingsContext } from "../providers/BuildingsProvider";
+import { Link } from "react-router-dom";
 
 const MiningGrounds = () => {
     const { resources, updateResources } = useContext(ResourcesContext);
@@ -47,48 +48,38 @@ const MiningGrounds = () => {
 
     useEffect(() => {
         let interval: number;
-        if (metalMiningUnits > 0) {
-            interval = setInterval(() => {
+        if (metalMiningUnits > 0 || crystalMiningUnits > 0 || gemstoneMiningUnits > 0) {
+            interval = setTimeout(() => {
                 mineMetal(metalMiningUnits);
+                const timeout1 = setTimeout(() => {
+                    mineCrystal(crystalMiningUnits);
+                    const timeout2 = setTimeout(() => {
+                        mineGemstone(gemstoneMiningUnits);
+                    }, 1000);
+                    return () => clearTimeout(timeout2);
+                }, 1000);
+                return () => clearTimeout(timeout1);
             }, 1000);
         }
-        return () => clearInterval(interval);
-    }, [resources.metal, metalMiningUnits]);
-    useEffect(() => {
-        let interval: number;
-        if (crystalMiningUnits > 0) {
-            interval = setInterval(() => {
-                mineCrystal(crystalMiningUnits);
-            }, 1000);
-        }
-        return () => clearInterval(interval);
-    }, [resources.crystal, crystalMiningUnits]);
-    useEffect(() => {
-        let interval: number;
-        if (gemstoneMiningUnits > 0) {
-            interval = setInterval(() => {
-                mineGemstone(gemstoneMiningUnits);
-            }, 1000);
-        }
-        return () => clearInterval(interval);
-    }, [resources.gemstone, gemstoneMiningUnits]);
+        return () => clearTimeout(interval);
+    }, [resources.metal, metalMiningUnits, resources.crystal, crystalMiningUnits, resources.gemstone, gemstoneMiningUnits]);
 
-    const mineMetal = (amount : number) => {
-        const newMetalAmount = resources.metal + amount;
-        updateResources({ metal: newMetalAmount, crystal: resources.crystal, gemstone: resources.gemstone });
-        localStorage.setItem('metal', newMetalAmount.toString());
+    const mineMetal = (amount: number) => {
+        const newMetal = resources.metal + amount;
+        updateResources({ metal: newMetal, crystal: resources.crystal, gemstone: resources.gemstone });
+        localStorage.setItem('metal', (resources.metal + amount).toString());
     }
-
-    const mineCrystal = (amount : number) => {
-        const newCrystalAmount = resources.crystal + amount;
-        updateResources({ metal: resources.metal, crystal: newCrystalAmount, gemstone: resources.gemstone });
-        localStorage.setItem('crystal', newCrystalAmount.toString());
+    
+    const mineCrystal = (amount: number) => {
+        const newCrystal = resources.crystal + amount;
+        updateResources({ metal: resources.metal, crystal: newCrystal, gemstone: resources.gemstone });
+        localStorage.setItem('crystal', (resources.crystal + amount).toString());
     }
-
-    const mineGemstone = (amount : number) => {
-        const newGemstoneAmount = resources.gemstone + amount;
-        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstoneAmount });
-        localStorage.setItem('gemstone', newGemstoneAmount.toString());
+    
+    const mineGemstone = (amount: number) => {
+        const newGemstone = resources.gemstone + amount;
+        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstone });
+        localStorage.setItem('gemstone', (resources.gemstone + amount).toString());
     }
 
     const addMetalMiningUnit = () => {
@@ -131,6 +122,8 @@ const MiningGrounds = () => {
             <h2>Automation</h2>
             <p>Mining units: {availableMiningUnits}, level: {miningUnitsLevel}</p>
             <p>Sentry drones: {availabelSentryDrones}, level: {sentryDronesLevel}</p>
+            <Link to="/battle">Battlefield</Link>
+            <Link to="/base">Base</Link>
         </div>
     );
 }
