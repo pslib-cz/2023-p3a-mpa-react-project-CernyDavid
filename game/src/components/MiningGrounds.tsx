@@ -162,19 +162,23 @@ const MiningGrounds = () => {
         setAvailableMiningUnits(availableMiningUnits - 1);
     }
 
+    const getClickAmount = () => {
+        return Math.pow(2, mainframeLevel);
+    }
+
     return (
         <div>
             <h1>Mining Grounds</h1>
             <p>Metal: {resources.metal}</p>
-            <button onClick={() => mineMetal(mainframeLevel * 10, prevMetal)}>Mine Metal</button>
+            <button onClick={() => mineMetal(getClickAmount() * 10)}>Mine Metal</button>
             <button onClick={() => addMetalMiningUnit()}>Add Miner</button>
             <p>{metalMiningUnits} mining metal.</p>
             <p>Crystal: {resources.crystal}</p>
-            <button onClick={() => mineCrystal(mainframeLevel * 5)}>Mine Crystal</button>
+            <button onClick={() => mineCrystal(getClickAmount() * 5)}>Mine Crystal</button>
             <button onClick={() => addCrystalMiningUnit()}>Add Miner</button>
             <p>{crystalMiningUnits} mining crystal.</p>
             <p>Gemstone: {resources.gemstone}</p>
-            <button onClick={() => mineGemstone(mainframeLevel * 2)}>Mine Gemstone</button>
+            <button onClick={() => mineGemstone(getClickAmount()* 2)}>Mine Gemstone</button>
             <button onClick={() => addGemstoneMiningUnit()}>Add Miner</button>
             <p>{gemstoneMiningUnits} mining gemstone.</p>
             <h2>Automation</h2>

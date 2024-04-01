@@ -103,7 +103,7 @@ const Base = () => {
         localStorage.setItem('slaughterersAvailable', newSlaughterersAvailable.toString());
     }
     const upgradeAaiba = () => {
-        if (aaibaLevel + 1 > ardcLevel) {
+        if (aaibaLevel + 1 > armoryLevel) {
             return;
         }
         const newAaibaLevel = aaibaLevel + 1;
@@ -111,7 +111,7 @@ const Base = () => {
         localStorage.setItem('aaibaLevel', newAaibaLevel.toString());
     }
     const upgradeSlaughterer = () => {
-        if (slaughterersLevel + 1 > ardcLevel) {
+        if (slaughterersLevel + 1 > armoryLevel) {
             return;
         }
         const newSlaughterersLevel = slaughterersLevel + 1;
