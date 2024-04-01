@@ -12,7 +12,7 @@ type ResourcesContextType = {
 }
 
 export const ResourcesContext = createContext<ResourcesContextType>(
-    { resources: { metal: 0, crystal: 0, gemstone: 0 }, updateResources: () => {} }
+    { resources: { metal: 0, crystal: 0, gemstone: 0 }, updateResources: () => {}}
 );
 
 const ResourcesProvider : React.FC<PropsWithChildren> = ({ children }) => {

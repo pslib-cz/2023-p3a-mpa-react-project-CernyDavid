@@ -2,7 +2,6 @@ import { ResourcesContext } from "../providers/ResourcesProvider";
 import { useContext, useEffect, useState } from "react";
 import { BuildingsContext } from "../providers/BuildingsProvider";
 import { Link } from "react-router-dom";
-import { ResourcesType } from "../providers/ResourcesProvider";
 
 const MiningGrounds = () => {
     const { resources, updateResources } = useContext(ResourcesContext);
@@ -47,17 +46,59 @@ const MiningGrounds = () => {
         }
     }, []);
 
+    let prevMetal : number = resources.metal;
+    let prevCrystal : number = resources.crystal;
+    let prevGemstone : number = resources.gemstone;
+
     useEffect(() => {
         let interval: number;
         if (metalMiningUnits > 0 || crystalMiningUnits > 0 || gemstoneMiningUnits > 0) {
-            let prevMetal = resources.metal;
-            let prevCrystal = resources.crystal;
-            let prevGemstone = resources.gemstone;
             interval = setInterval(() => {
-                updateResources({ metal: prevMetal + metalMiningUnits, crystal: prevCrystal + crystalMiningUnits, gemstone: prevGemstone + gemstoneMiningUnits});
-                prevMetal += metalMiningUnits;
-                prevCrystal += crystalMiningUnits;
-                prevGemstone += gemstoneMiningUnits;
+                if (metalMiningUnits > 0 && crystalMiningUnits > 0 && gemstoneMiningUnits > 0) {
+                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: prevCrystal + crystalMiningUnits, gemstone: prevGemstone + gemstoneMiningUnits});
+                    prevMetal += metalMiningUnits;
+                    prevCrystal += crystalMiningUnits;
+                    prevGemstone += gemstoneMiningUnits;
+                    localStorage.setItem('metal', (prevMetal).toString());
+                    localStorage.setItem('crystal', (prevCrystal).toString());
+                    localStorage.setItem('gemstone', (prevGemstone).toString());
+                }
+                else if (metalMiningUnits > 0 && crystalMiningUnits > 0) {
+                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: prevCrystal + crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')});
+                    prevMetal += metalMiningUnits;
+                    prevCrystal += crystalMiningUnits;
+                    localStorage.setItem('metal', (prevMetal).toString());
+                    localStorage.setItem('crystal', (prevCrystal).toString());
+                }
+                else if (metalMiningUnits > 0 && gemstoneMiningUnits > 0) {
+                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + gemstoneMiningUnits});
+                    prevMetal += metalMiningUnits;
+                    prevGemstone += gemstoneMiningUnits;
+                    localStorage.setItem('metal', (prevMetal).toString());
+                    localStorage.setItem('gemstone', (prevGemstone).toString());
+                }
+                else if (crystalMiningUnits > 0 && gemstoneMiningUnits > 0) {
+                    updateResources({ metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + crystalMiningUnits, gemstone: prevGemstone + gemstoneMiningUnits});
+                    prevCrystal += crystalMiningUnits;
+                    prevGemstone += gemstoneMiningUnits;
+                    localStorage.setItem('crystal', (prevCrystal).toString());
+                    localStorage.setItem('gemstone', (prevGemstone).toString());
+                }
+                else if (metalMiningUnits > 0) {
+                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: parseInt(localStorage.getItem('gemstone') || '0')});
+                    prevMetal += metalMiningUnits;
+                    localStorage.setItem('metal', (prevMetal).toString());
+                }
+                else if (crystalMiningUnits > 0) {
+                    updateResources({ metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')});
+                    prevCrystal += crystalMiningUnits;
+                    localStorage.setItem('crystal', (prevCrystal).toString());
+                }
+                else if (gemstoneMiningUnits > 0) {
+                    updateResources({ metal: parseInt(localStorage.getItem('metal') || '0'), crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + gemstoneMiningUnits});
+                    prevGemstone += gemstoneMiningUnits;
+                    localStorage.setItem('gemstone', (prevGemstone).toString());
+                }
             }, 1000);
         }
         return () => clearInterval(interval);
@@ -71,8 +112,8 @@ const MiningGrounds = () => {
         else {
             newMetal = resources.metal + amount;
         }
-        updateResources({ metal: newMetal, crystal: resources.crystal, gemstone: resources.gemstone });
         localStorage.setItem('metal', (resources.metal + amount).toString());
+        updateResources({ metal: newMetal, crystal: resources.crystal, gemstone: resources.gemstone });
     }
     
     const mineCrystal = (amount: number, prev?: number) => {
@@ -83,8 +124,8 @@ const MiningGrounds = () => {
         else {
             newCrystal = resources.crystal + amount;
         }
-        updateResources({ metal: resources.metal, crystal: newCrystal, gemstone: resources.gemstone });
         localStorage.setItem('crystal', (resources.crystal + amount).toString());
+        updateResources({ metal: resources.metal, crystal: newCrystal, gemstone: resources.gemstone });
     }
     
     const mineGemstone = (amount: number, prev?: number) => {
@@ -95,8 +136,8 @@ const MiningGrounds = () => {
         else {
             newGemstone = resources.gemstone + amount;
         }
-        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstone });
         localStorage.setItem('gemstone', (resources.gemstone + amount).toString());
+        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstone });
     }
 
     const addMetalMiningUnit = () => {
@@ -125,7 +166,7 @@ const MiningGrounds = () => {
         <div>
             <h1>Mining Grounds</h1>
             <p>Metal: {resources.metal}</p>
-            <button onClick={() => mineMetal(mainframeLevel * 10)}>Mine Metal</button>
+            <button onClick={() => mineMetal(mainframeLevel * 10, prevMetal)}>Mine Metal</button>
             <button onClick={() => addMetalMiningUnit()}>Add Miner</button>
             <p>{metalMiningUnits} mining metal.</p>
             <p>Crystal: {resources.crystal}</p>

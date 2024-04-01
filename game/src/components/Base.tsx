@@ -40,6 +40,8 @@ const Base = () => {
             return;
         }
         const newResources = { metal: resources.metal - metalCost, crystal: resources.crystal - crystalCost, gemstone: resources.gemstone };
+        localStorage.setItem('metal', newResources.metal.toString());
+        localStorage.setItem('crystal', newResources.crystal.toString());
         updateResources(newResources);
         const newLevel = factoryLevel + 1;
         setFactoryLevel(newLevel);
