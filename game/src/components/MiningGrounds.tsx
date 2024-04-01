@@ -2,6 +2,7 @@ import { ResourcesContext } from "../providers/ResourcesProvider";
 import { useContext, useEffect, useState } from "react";
 import { BuildingsContext } from "../providers/BuildingsProvider";
 import { Link } from "react-router-dom";
+import { ResourcesType } from "../providers/ResourcesProvider";
 
 const MiningGrounds = () => {
     const { resources, updateResources } = useContext(ResourcesContext);
@@ -49,35 +50,51 @@ const MiningGrounds = () => {
     useEffect(() => {
         let interval: number;
         if (metalMiningUnits > 0 || crystalMiningUnits > 0 || gemstoneMiningUnits > 0) {
-            interval = setTimeout(() => {
-                mineMetal(metalMiningUnits);
-                const timeout1 = setTimeout(() => {
-                    mineCrystal(crystalMiningUnits);
-                    const timeout2 = setTimeout(() => {
-                        mineGemstone(gemstoneMiningUnits);
-                    }, 1000);
-                    return () => clearTimeout(timeout2);
-                }, 1000);
-                return () => clearTimeout(timeout1);
+            let prevMetal = resources.metal;
+            let prevCrystal = resources.crystal;
+            let prevGemstone = resources.gemstone;
+            interval = setInterval(() => {
+                updateResources({ metal: prevMetal + metalMiningUnits, crystal: prevCrystal + crystalMiningUnits, gemstone: prevGemstone + gemstoneMiningUnits});
+                prevMetal += metalMiningUnits;
+                prevCrystal += crystalMiningUnits;
+                prevGemstone += gemstoneMiningUnits;
             }, 1000);
         }
-        return () => clearTimeout(interval);
-    }, [resources.metal, metalMiningUnits, resources.crystal, crystalMiningUnits, resources.gemstone, gemstoneMiningUnits]);
+        return () => clearInterval(interval);
+    }, [metalMiningUnits, crystalMiningUnits, gemstoneMiningUnits]);
 
-    const mineMetal = (amount: number) => {
-        const newMetal = resources.metal + amount;
+    const mineMetal = (amount: number, prev?: number) => {
+        let newMetal;
+        if (prev) {
+            newMetal = prev + amount;
+        }
+        else {
+            newMetal = resources.metal + amount;
+        }
         updateResources({ metal: newMetal, crystal: resources.crystal, gemstone: resources.gemstone });
         localStorage.setItem('metal', (resources.metal + amount).toString());
     }
     
-    const mineCrystal = (amount: number) => {
-        const newCrystal = resources.crystal + amount;
+    const mineCrystal = (amount: number, prev?: number) => {
+        let newCrystal;
+        if (prev) {
+            newCrystal = prev + amount;
+        }
+        else {
+            newCrystal = resources.crystal + amount;
+        }
         updateResources({ metal: resources.metal, crystal: newCrystal, gemstone: resources.gemstone });
         localStorage.setItem('crystal', (resources.crystal + amount).toString());
     }
     
-    const mineGemstone = (amount: number) => {
-        const newGemstone = resources.gemstone + amount;
+    const mineGemstone = (amount: number, prev?: number) => {
+        let newGemstone;
+        if (prev) {
+            newGemstone = prev + amount;
+        }
+        else {
+            newGemstone = resources.gemstone + amount;
+        }
         updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstone });
         localStorage.setItem('gemstone', (resources.gemstone + amount).toString());
     }

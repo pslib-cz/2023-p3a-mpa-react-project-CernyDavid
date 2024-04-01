@@ -19,7 +19,7 @@ const ResourcesProvider : React.FC<PropsWithChildren> = ({ children }) => {
     const [resources, setResources] = useState<ResourcesType>({ metal: 0, crystal: 0, gemstone: 0 });
 
     const updateResources = (newResources: ResourcesType) => {
-        setResources({...resources, ...newResources});
+        setResources(prev => ({ ...prev, ...newResources}));
     };
 
     return (

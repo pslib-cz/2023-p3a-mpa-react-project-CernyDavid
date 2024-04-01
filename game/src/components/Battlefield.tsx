@@ -37,6 +37,9 @@ const Battlefield = () => {
         setAaibaLevel(parseInt(localStorage.getItem('aaibaLevel') || '0'));
         setSlaughterersAvailable(parseInt(localStorage.getItem('slaughterersAvailable') || '0'));
         setSlaughterersLevel(parseInt(localStorage.getItem('slaughterersLevel') || '0'));
+        setAaibaDeployed(parseInt(localStorage.getItem('aaibaDeployed') || '0'));
+        setSlaughterersDeployed(parseInt(localStorage.getItem('slaughterersDeployed') || '0'));
+        setEnemiesKilled(parseInt(localStorage.getItem('enemiesKilled') || '0'));
     }, []);
 
     const deployAaiba = () => {

@@ -81,7 +81,7 @@ const Base = () => {
     };
 
     const createAaiba = () => {
-        if (aaibaAvailable + slaughterersAvailable > barracksLevel * 2) {
+        if (aaibaAvailable + 1 + slaughterersAvailable > barracksLevel * 2) {
             return;
         }
         const newAaibaAvailable = aaibaAvailable + 1;
@@ -90,7 +90,10 @@ const Base = () => {
     }
 
     const createSlaughterer = () => {
-        if (aaibaAvailable + slaughterersAvailable > barracksLevel * 2) {
+        if (aaibaAvailable + slaughterersAvailable + 1 > barracksLevel * 2) {
+            return;
+        }
+        if (barracksLevel === 0) {
             return;
         }
         const newSlaughterersAvailable = slaughterersAvailable + 1;
