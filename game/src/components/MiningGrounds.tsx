@@ -1,189 +1,167 @@
-import { ResourcesContext } from "../providers/ResourcesProvider";
 import { useContext, useEffect, useState } from "react";
-import { BuildingsContext } from "../providers/BuildingsProvider";
 import { Link } from "react-router-dom";
+import { GameStateContext } from "../providers/GameStateProvider";
+import { ActionType } from "../providers/GameStateProvider";
 
 const MiningGrounds = () => {
-    const { resources, updateResources } = useContext(ResourcesContext);
-    const [factoryLevel, setFactoryLevel] = useContext(BuildingsContext).factory;
-    const [ardcLevel, setArdcLevel] = useContext(BuildingsContext).ardc;
-    const [mainframeLevel, setMainframeLevel] = useContext(BuildingsContext).mainframe;
-    const [metalMiningUnits, setMetalMiningUnits] = useState<number>(0);
-    const [crystalMiningUnits, setCrystalMiningUnits] = useState<number>(0);
-    const [gemstoneMiningUnits, setGemstoneMiningUnits] = useState<number>(0);
-    const [availableMiningUnits, setAvailableMiningUnits] = useState<number>(0);
-    const [availabelSentryDrones, setAvailableSentryDrones] = useState<number>(0);
-    const [miningUnitsLevel, setMiningUnitsLevel] = useState<number>(0);
-    const [sentryDronesLevel, setSentryDronesLevel] = useState<number>(0);
-
+    const {state, dispatch} = useContext(GameStateContext);
+    const [miningUnitsToDeploy, setMiningUnitsToDeploy] = useState<number>(0);
+    const [sentryDronesToDeploy, setSentryDronesToDeploy] = useState<number>(0);
 
     useEffect(() => {
         const metal = parseInt(localStorage.getItem('metal') || '0');
         const crystal = parseInt(localStorage.getItem('crystal') || '0');
         const gemstone = parseInt(localStorage.getItem('gemstone') || '0');
-        updateResources({ metal, crystal, gemstone });
-        const factoryLevel = parseInt(localStorage.getItem('factoryLevel') || '0');
-        const ardcLevel = parseInt(localStorage.getItem('ardcLevel') || '0');
-        const mainframeLevel = parseInt(localStorage.getItem('mainframeLevel') || '0');
-        setFactoryLevel(factoryLevel);
-        setArdcLevel(ardcLevel);
-        setMainframeLevel(mainframeLevel);
-        if (factoryLevel > 10) {
-            setAvailableMiningUnits(10);
+        dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
+        const metalMiningUnits = parseInt(localStorage.getItem('metalMiningUnits') || '0');
+        const crystalMiningUnits = parseInt(localStorage.getItem('crystalMiningUnits') || '0');
+        const gemstoneMiningUnits = parseInt(localStorage.getItem('gemstoneMiningUnits') || '0');
+        const availableMiningUnits = parseInt(localStorage.getItem('availableMiningUnits') || '0');
+        setMiningUnitsToDeploy(availableMiningUnits - metalMiningUnits - crystalMiningUnits - gemstoneMiningUnits);
+        //setSentryDronesToDeploy(availableSentryDrones - metalSentryDrones - crystalSentryDrones - gemstoneSentryDrones);
+
+        //tohle nefachci, opravit
+
+        for (let i = metalMiningUnits; i > 0; i--) {
+            addMetalMiningUnit();
+            console.log('Adding metal mining unit');
         }
-        else if (factoryLevel > 0) {
-            setAvailableMiningUnits(factoryLevel);
+        for (let i = crystalMiningUnits; i > 0; i--) {
+            addCrystalMiningUnit();
+            console.log('Adding crystal mining unit');
         }
-        if (factoryLevel > 20) {
-            setAvailableSentryDrones(10);
-        }
-        else if (factoryLevel > 10) {
-            setAvailableSentryDrones(factoryLevel - 10);
-        }
-        if (ardcLevel > 0) {
-            setMiningUnitsLevel(Math.floor(ardcLevel / 5) + 1);
-            setSentryDronesLevel(Math.floor(ardcLevel / 10) + 1);
+        for (let i = gemstoneMiningUnits; i > 0; i--) {
+            addGemstoneMiningUnit();
+            console.log('Adding gemstone mining unit');
         }
     }, []);
 
-    let prevMetal : number = resources.metal;
-    let prevCrystal : number = resources.crystal;
-    let prevGemstone : number = resources.gemstone;
+    let prevMetal : number = state.resources.metal;
+    let prevCrystal : number = state.resources.crystal;
+    let prevGemstone : number = state.resources.gemstone;
 
     useEffect(() => {
         let interval: number;
-        if (metalMiningUnits > 0 || crystalMiningUnits > 0 || gemstoneMiningUnits > 0) {
+        if (state.metalMiningUnits > 0 || state.crystalMiningUnits > 0 || state.gemstoneMiningUnits > 0) {
             interval = setInterval(() => {
-                if (metalMiningUnits > 0 && crystalMiningUnits > 0 && gemstoneMiningUnits > 0) {
-                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: prevCrystal + crystalMiningUnits, gemstone: prevGemstone + gemstoneMiningUnits});
-                    prevMetal += metalMiningUnits;
-                    prevCrystal += crystalMiningUnits;
-                    prevGemstone += gemstoneMiningUnits;
+                if (state.metalMiningUnits > 0 && state.crystalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: prevCrystal + state.crystalMiningUnits, gemstone: prevGemstone + state.gemstoneMiningUnits}});
+                    prevMetal += state.metalMiningUnits;
+                    prevCrystal += state.crystalMiningUnits;
+                    prevGemstone += state.gemstoneMiningUnits;
                     localStorage.setItem('metal', (prevMetal).toString());
                     localStorage.setItem('crystal', (prevCrystal).toString());
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
-                else if (metalMiningUnits > 0 && crystalMiningUnits > 0) {
-                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: prevCrystal + crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')});
-                    prevMetal += metalMiningUnits;
-                    prevCrystal += crystalMiningUnits;
+                else if (state.metalMiningUnits > 0 && state.crystalMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: prevCrystal + state.crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
+                    prevMetal += state.metalMiningUnits;
+                    prevCrystal += state.crystalMiningUnits;
                     localStorage.setItem('metal', (prevMetal).toString());
                     localStorage.setItem('crystal', (prevCrystal).toString());
                 }
-                else if (metalMiningUnits > 0 && gemstoneMiningUnits > 0) {
-                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + gemstoneMiningUnits});
-                    prevMetal += metalMiningUnits;
-                    prevGemstone += gemstoneMiningUnits;
+                else if (state.metalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + state.gemstoneMiningUnits}});
+                    prevMetal += state.metalMiningUnits;
+                    prevGemstone += state.gemstoneMiningUnits;
                     localStorage.setItem('metal', (prevMetal).toString());
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
-                else if (crystalMiningUnits > 0 && gemstoneMiningUnits > 0) {
-                    updateResources({ metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + crystalMiningUnits, gemstone: prevGemstone + gemstoneMiningUnits});
-                    prevCrystal += crystalMiningUnits;
-                    prevGemstone += gemstoneMiningUnits;
+                else if (state.crystalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + state.crystalMiningUnits, gemstone: prevGemstone + state.gemstoneMiningUnits}});
+                    prevCrystal += state.crystalMiningUnits;
+                    prevGemstone += state.gemstoneMiningUnits;
                     localStorage.setItem('crystal', (prevCrystal).toString());
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
-                else if (metalMiningUnits > 0) {
-                    updateResources({ metal: prevMetal + metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: parseInt(localStorage.getItem('gemstone') || '0')});
-                    prevMetal += metalMiningUnits;
+                else if (state.metalMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
+                    prevMetal += state.metalMiningUnits;
                     localStorage.setItem('metal', (prevMetal).toString());
                 }
-                else if (crystalMiningUnits > 0) {
-                    updateResources({ metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')});
-                    prevCrystal += crystalMiningUnits;
+                else if (state.crystalMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + state.crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
+                    prevCrystal += state.crystalMiningUnits;
                     localStorage.setItem('crystal', (prevCrystal).toString());
                 }
-                else if (gemstoneMiningUnits > 0) {
-                    updateResources({ metal: parseInt(localStorage.getItem('metal') || '0'), crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + gemstoneMiningUnits});
-                    prevGemstone += gemstoneMiningUnits;
+                else if (state.gemstoneMiningUnits > 0) {
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + state.gemstoneMiningUnits}});
+                    prevGemstone += state.gemstoneMiningUnits;
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
             }, 1000);
         }
         return () => clearInterval(interval);
-    }, [metalMiningUnits, crystalMiningUnits, gemstoneMiningUnits]);
+    }, [state.metalMiningUnits, state.crystalMiningUnits, state.gemstoneMiningUnits]);
 
-    const mineMetal = (amount: number, prev?: number) => {
+    const mineMetal = (amount: number) => {
         let newMetal;
-        if (prev) {
-            newMetal = prev + amount;
-        }
-        else {
-            newMetal = resources.metal + amount;
-        }
-        localStorage.setItem('metal', (resources.metal + amount).toString());
-        updateResources({ metal: newMetal, crystal: resources.crystal, gemstone: resources.gemstone });
+        newMetal = state.resources.metal + amount;
+        localStorage.setItem('metal', (newMetal).toString());
+        dispatch({type: ActionType.SET_RESOURCES, payload: {metal: newMetal, crystal: state.resources.crystal, gemstone: state.resources.gemstone}});
     }
     
-    const mineCrystal = (amount: number, prev?: number) => {
+    const mineCrystal = (amount: number) => {
         let newCrystal;
-        if (prev) {
-            newCrystal = prev + amount;
-        }
-        else {
-            newCrystal = resources.crystal + amount;
-        }
-        localStorage.setItem('crystal', (resources.crystal + amount).toString());
-        updateResources({ metal: resources.metal, crystal: newCrystal, gemstone: resources.gemstone });
+        newCrystal = state.resources.crystal + amount;
+        localStorage.setItem('crystal', (newCrystal).toString());
+        dispatch({type: ActionType.SET_RESOURCES, payload: {metal: state.resources.metal, crystal: newCrystal, gemstone: state.resources.gemstone}});
     }
     
-    const mineGemstone = (amount: number, prev?: number) => {
+    const mineGemstone = (amount: number) => {
         let newGemstone;
-        if (prev) {
-            newGemstone = prev + amount;
-        }
-        else {
-            newGemstone = resources.gemstone + amount;
-        }
-        localStorage.setItem('gemstone', (resources.gemstone + amount).toString());
-        updateResources({ metal: resources.metal, crystal: resources.crystal, gemstone: newGemstone });
+        newGemstone = state.resources.gemstone + amount;
+        localStorage.setItem('gemstone', (newGemstone).toString());
+        dispatch({type: ActionType.SET_RESOURCES, payload: {metal: state.resources.metal, crystal: state.resources.crystal, gemstone: newGemstone}});
     }
 
     const addMetalMiningUnit = () => {
-        if (availableMiningUnits < 1) {
+        if (miningUnitsToDeploy < 1) {
             return;
         }
-        setMetalMiningUnits(metalMiningUnits + 1);
-        setAvailableMiningUnits(availableMiningUnits - 1);
+        setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
+        dispatch({type: ActionType.ADD_METAL_MINING_UNITS});
+        localStorage.setItem('metalMiningUnits', (state.metalMiningUnits + 1).toString());
     }
     const addCrystalMiningUnit = () => {
-        if (availableMiningUnits < 1) {
+        if (miningUnitsToDeploy < 1) {
             return;
         }
-        setCrystalMiningUnits(crystalMiningUnits + 1);
-        setAvailableMiningUnits(availableMiningUnits - 1);
+        setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
+        dispatch({type: ActionType.ADD_CRYSTAL_MINING_UNITS});
+        localStorage.setItem('crystalMiningUnits', (state.crystalMiningUnits + 1).toString());
     }
     const addGemstoneMiningUnit = () => {
-        if (availableMiningUnits < 1) {
+        if (miningUnitsToDeploy < 1) {
             return;
         }
-        setGemstoneMiningUnits(gemstoneMiningUnits + 1);
-        setAvailableMiningUnits(availableMiningUnits - 1);
+        setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
+        dispatch({type: ActionType.ADD_GEMSTONE_MINING_UNITS});
+        localStorage.setItem('gemstoneMiningUnits', (state.gemstoneMiningUnits + 1).toString());
     }
 
     const getClickAmount = () => {
-        return Math.pow(2, mainframeLevel);
+        return Math.pow(2, state.mainframeLevel);
     }
 
     return (
         <div>
             <h1>Mining Grounds</h1>
-            <p>Metal: {resources.metal}</p>
+            <p>Metal: {state.resources.metal}</p>
             <button onClick={() => mineMetal(getClickAmount() * 10)}>Mine Metal</button>
             <button onClick={() => addMetalMiningUnit()}>Add Miner</button>
-            <p>{metalMiningUnits} mining metal.</p>
-            <p>Crystal: {resources.crystal}</p>
+            <p>{state.metalMiningUnits} mining metal.</p>
+            <p>Crystal: {state.resources.crystal}</p>
             <button onClick={() => mineCrystal(getClickAmount() * 5)}>Mine Crystal</button>
             <button onClick={() => addCrystalMiningUnit()}>Add Miner</button>
-            <p>{crystalMiningUnits} mining crystal.</p>
-            <p>Gemstone: {resources.gemstone}</p>
+            <p>{state.crystalMiningUnits} mining crystal.</p>
+            <p>Gemstone: {state.resources.gemstone}</p>
             <button onClick={() => mineGemstone(getClickAmount()* 2)}>Mine Gemstone</button>
             <button onClick={() => addGemstoneMiningUnit()}>Add Miner</button>
-            <p>{gemstoneMiningUnits} mining gemstone.</p>
+            <p>{state.gemstoneMiningUnits} mining gemstone.</p>
             <h2>Automation</h2>
-            <p>Mining units: {availableMiningUnits}, level: {miningUnitsLevel}</p>
-            <p>Sentry drones: {availabelSentryDrones}, level: {sentryDronesLevel}</p>
+            <p>Mining units: {miningUnitsToDeploy}, level: {state.miningUnitsLevel}</p>
+            <p>Sentry drones: {sentryDronesToDeploy}, level: {state.sentryDronesLevel}</p>
             <Link to="/battle">Battlefield</Link>
             <Link to="/base">Base</Link>
         </div>
