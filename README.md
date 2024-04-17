@@ -1,5 +1,4 @@
-# Název
-
+# Space Machinist
 ## Téma
 
 Jedná se o "RPG klikačku", kde hráč získává herní měnu klikáním na určité místo. Za danou měnu potom kupuje (staví) a vylepšuje budovy ve své pevnosti (např. zbrojírna, kasárny...). Tím hráč vylepšují svou armádu a automatizuje produkci herní měny. Se svou armádou poté může bojovat proti NPC nepřátelům (automatické souboje, šance na výhru závisí na statech), čímž hráč zvyšuje svůj level a odemyká další vylepšení.  
