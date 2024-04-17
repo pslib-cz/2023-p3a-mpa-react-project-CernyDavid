@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
-import { ResourcesContext } from '../providers/ResourcesProvider';
-import { SoldiersContext } from '../providers/SoldiersProvider';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { GameStateContext } from '../providers/GameStateProvider';
+import { ActionType } from '../providers/GameStateProvider';
 
 export type Enemy = {
     name: string;
@@ -18,67 +18,66 @@ const enemies: Enemy[] = [
 ];
 
 const Battlefield = () => {
-    const resources = useContext(ResourcesContext).resources;
-    const updateResources = useContext(ResourcesContext).updateResources;
-    const [aaibaAvailable, setAaibaAvailable] = useContext(SoldiersContext).aaibaAvailable;
-    const [aaibaLevel, setAaibaLevel] = useContext(SoldiersContext).aaibaLevel;
-    const [slaughterersAvailable, setSlaughterersAvailable] = useContext(SoldiersContext).slaugheterersAvailable;
-    const [slaughterersLevel, setSlaughterersLevel] = useContext(SoldiersContext).slaughterersLevel;
-    const [aaibaDeployed, setAaibaDeployed] = useState<number>(0);
-    const [slaughterersDeployed, setSlaughterersDeployed] = useState<number>(0);
-    const [enemiesKilled, setEnemiesKilled] = useState<number>(0);
+    const {state, dispatch} = useContext(GameStateContext);
 
     useEffect(() => {
-        const metal = parseInt(localStorage.getItem('metal') || '0');
-        const crystal = parseInt(localStorage.getItem('crystal') || '0');
-        const gemstone = parseInt(localStorage.getItem('gemstone') || '0');
-        updateResources({ metal, crystal, gemstone });
-        setAaibaAvailable(parseInt(localStorage.getItem('aaibaAvailable') || '0'));
-        setAaibaLevel(parseInt(localStorage.getItem('aaibaLevel') || '0'));
-        setSlaughterersAvailable(parseInt(localStorage.getItem('slaughterersAvailable') || '0'));
-        setSlaughterersLevel(parseInt(localStorage.getItem('slaughterersLevel') || '0'));
-        setAaibaDeployed(parseInt(localStorage.getItem('aaibaDeployed') || '0'));
-        setSlaughterersDeployed(parseInt(localStorage.getItem('slaughterersDeployed') || '0'));
-        setEnemiesKilled(parseInt(localStorage.getItem('enemiesKilled') || '0'));
+        const aaibaAvailable = parseInt(localStorage.getItem('aaibaAvailable') || '0');
+        const slaughterersAvailable = parseInt(localStorage.getItem('slaughterersAvailable') || '0');
+        const aaibaLevel = parseInt(localStorage.getItem('aaibaLevel') || '1');
+        const slaughterersLevel = parseInt(localStorage.getItem('slaughterersLevel') || '1');
+        const aaibaDeployed = parseInt(localStorage.getItem('aaibaDeployed') || '0');
+        const slaughterersDeployed = parseInt(localStorage.getItem('slaughterersDeployed') || '0');
+
+        if (state.aaibaAvailable === 0 && state.slaughterersAvailable === 0) {
+            dispatch({type: ActionType.CREATE_AAIBA, amount: aaibaAvailable});
+            dispatch({type: ActionType.CREATE_SLAUGHTERER, amount: slaughterersAvailable});
+            console.log('Soldiers loaded');
+        }
+
+        if (state.aaibaLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_AAIBA, value: aaibaLevel});
+        }
+        if (state.slaughterersLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_SLAUGHTERER, value: slaughterersLevel});
+        }
+
+        dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: aaibaDeployed});
+        dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: slaughterersDeployed});
+
     }, []);
 
     const deployAaiba = () => {
-        if (aaibaAvailable === 0) {
+        if (state.aaibaAvailable === 0) {
             return;
         }
-        setAaibaDeployed(aaibaDeployed + 1);
-        setAaibaAvailable(aaibaAvailable - 1);
-        localStorage.setItem('aaibaAvailable', (aaibaAvailable - 1).toString());
-        localStorage.setItem('aaibaDeployed', (aaibaDeployed + 1).toString());
+        dispatch({type: ActionType.DEPLOY_AAIBA, amount: 1});
+        localStorage.setItem('aaibaAvailable', (state.aaibaAvailable - 1).toString());
+        localStorage.setItem('aaibaDeployed', (state.aaibaDeployed + 1).toString());
     };
     const deploySlaughterer = () => {
-        if (slaughterersAvailable === 0) {
+        if (state.slaughterersAvailable === 0) {
             return;
         }
-        setSlaughterersDeployed(slaughterersDeployed + 1);
-        setSlaughterersAvailable(slaughterersAvailable - 1);
-        localStorage.setItem('slaughterersAvailable', (slaughterersAvailable - 1).toString());
-        localStorage.setItem('slaughterersDeployed', (slaughterersDeployed + 1).toString());
+        dispatch({type: ActionType.DEPLOY_SLAUGHTERER, amount: 1});
+        localStorage.setItem('slaughterersAvailable', (state.slaughterersAvailable - 1).toString());
+        localStorage.setItem('slaughterersDeployed', (state.slaughterersDeployed + 1).toString());
     };
 
     const getCurrentEnemy = () => {
-        const currentEnemy = enemies[enemiesKilled];
+        const currentEnemy = enemies[state.enemiesKilled];
         return currentEnemy;
     }
 
     return (
         <div>
             <h1>Battlefield</h1>
-            <p>Metal: {resources.metal}</p>
-            <p>Crystal: {resources.crystal}</p>
-            <p>Gemstone: {resources.gemstone}</p>
             <h2>Soldiers</h2>
-            <p>AAIBA: {aaibaAvailable}, level: {aaibaLevel}</p>
-            <p>Slaughterers: {slaughterersAvailable}, level: {slaughterersLevel}</p>
+            <p>AAIBA: {state.aaibaAvailable}, level: {state.aaibaLevel}</p>
+            <p>Slaughterers: {state.slaughterersAvailable}, level: {state.slaughterersLevel}</p>
             <h2>Deployed</h2>
-            <p>AAIBA: {aaibaDeployed}</p>
+            <p>AAIBA: {state.aaibaDeployed}</p>
             <button onClick={() => deployAaiba()}>Deploy AAIBA</button>
-            <p>Slaughterers: {slaughterersDeployed}</p>
+            <p>Slaughterers: {state.slaughterersDeployed}</p>
             <button onClick={() => deploySlaughterer()}>Deploy Slaughterer</button>
             <h2>Enemy</h2>
             <p>{getCurrentEnemy().name}, level: {getCurrentEnemy().level}</p>

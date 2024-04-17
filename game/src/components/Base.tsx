@@ -34,6 +34,15 @@ const Base = () => {
             dispatch({type: ActionType.UPGRADE_SENTRY_DRONES, value: parseInt(localStorage.getItem('sentryDronesLevel') || '1')});
         }
 
+        if (state.aaibaAvailable === 0 && state.slaughterersAvailable === 0) {
+            dispatch({type: ActionType.CREATE_AAIBA, amount: parseInt(localStorage.getItem('aaibaAvailable') || '0')});
+            dispatch({type: ActionType.CREATE_SLAUGHTERER, amount: parseInt(localStorage.getItem('slaughterersAvailable') || '0')});
+            console.log('Soldiers loaded');
+        }
+
+        dispatch({type: ActionType.UPGRADE_AAIBA, value: parseInt(localStorage.getItem('aaibaLevel') || '1')});
+        dispatch({type: ActionType.UPGRADE_SLAUGHTERER, value: parseInt(localStorage.getItem('slaughterersLevel') || '1')});
+
         dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
 
     }, []);
@@ -92,26 +101,26 @@ const Base = () => {
     };
 
     const createAaiba = () => {
-        if (state.aaibaAvailable + 1 + state.slaughterersAvailable > state.barracksLevel * 2) {
+        if (state.aaibaAvailable + 1 + state.slaughterersAvailable + parseInt(localStorage.getItem("aaibaDeployed") || "0") + parseInt(localStorage.getItem("slaughterersDeployed") || "0") > state.barracksLevel * 2) {
             return;
         }
         if (state.barracksLevel === 0) {
             return;
         }
         const newAaibaAvailable = state.aaibaAvailable + 1;
-        dispatch({type: ActionType.CREATE_AAIBA});
+        dispatch({type: ActionType.CREATE_AAIBA, amount: newAaibaAvailable});
         localStorage.setItem('aaibaAvailable', newAaibaAvailable.toString());
     }
 
     const createSlaughterer = () => {
-        if (state.aaibaAvailable + state.slaughterersAvailable + 1 > state.barracksLevel * 2) {
+        if (state.aaibaAvailable + state.slaughterersAvailable + 1 + parseInt(localStorage.getItem("aaibaDeployed") || "0") + parseInt(localStorage.getItem("slaughterersDeployed") || "0") > state.barracksLevel * 2) {
             return;
         }
         if (state.barracksLevel === 0) {
             return;
         }
         const newSlaughterersAvailable = state.slaughterersAvailable + 1;
-        dispatch({type: ActionType.CREATE_SLAUGHTERER});
+        dispatch({type: ActionType.CREATE_SLAUGHTERER, amount: newSlaughterersAvailable});
         localStorage.setItem('slaughterersAvailable', newSlaughterersAvailable.toString());
     }
     const upgradeAaiba = () => {

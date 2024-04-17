@@ -30,15 +30,18 @@ export enum ActionType {
     KILL_ENEMY,
     SET_RESOURCES,
     SET_MINING_UNITS_AVAILABLE,
-    SET_SENTRY_DRONES_AVAILABLE
+    SET_SENTRY_DRONES_AVAILABLE,
+    SET_AAIBA_DEPLOYED,
+    SET_SLAUGHTERERS_DEPLOYED
 }
 
 type Action = {type: ActionType.UPGRADE_FACTORY, value: number} | {type: ActionType.UPGRADE_BARRACKS, value: number} | {type: ActionType.UPGRADE_MAINFRAME, value: number} | {type: ActionType.UPGRADE_ARMORY, value: number} | {type: ActionType.UPGRADE_ARDC, value: number} | {type: ActionType.RESET} |
-{type: ActionType.CREATE_AAIBA} | {type: ActionType.CREATE_SLAUGHTERER} | {type: ActionType.UPGRADE_AAIBA, value: number} | {type: ActionType.UPGRADE_SLAUGHTERER, value: number} | {type: ActionType.DEPLOY_AAIBA} | {type: ActionType.DEPLOY_SLAUGHTERER} |
+{type: ActionType.CREATE_AAIBA, amount: number} | {type: ActionType.CREATE_SLAUGHTERER, amount: number} | {type: ActionType.UPGRADE_AAIBA, value: number} | {type: ActionType.UPGRADE_SLAUGHTERER, value: number} | {type: ActionType.DEPLOY_AAIBA, amount: number} | {type: ActionType.DEPLOY_SLAUGHTERER, amount: number} |
 {type: ActionType.UPGRADE_MINING_UNITS, value: number} | {type: ActionType.UPGRADE_SENTRY_DRONES, value: number} | {type: ActionType.SET_METAL_MINING_UNITS, value: number} | {type: ActionType.SET_CRYSTAL_MINING_UNITS, value: number} | {type: ActionType.SET_GEMSTONE_MINING_UNITS, value: number} |
 {type: ActionType.SET_METAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_CRYSTAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_GEMSTONE_SENTRY_DRONES, value: number}
 | {type: ActionType.KILL_ENEMY} | {type: ActionType.SET_RESOURCES, payload: ResourcesType} |
 {type: ActionType.SET_MINING_UNITS_AVAILABLE, payload: number} | {type: ActionType.SET_SENTRY_DRONES_AVAILABLE, payload: number}
+| {type: ActionType.SET_AAIBA_DEPLOYED, payload: number} | {type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: number};
 
 type GameState = {
     resources: ResourcesType;
@@ -114,10 +117,10 @@ const reducer = (state: GameState, action: Action ) => {
             localStorage.clear();
             return initialState;
         case ActionType.CREATE_AAIBA:
-            newState.aaibaAvailable += 1;
+            newState.aaibaAvailable = action.amount;
             return newState;
         case ActionType.CREATE_SLAUGHTERER:
-            newState.slaughterersAvailable += 1;
+            newState.slaughterersAvailable = action.amount;
             return newState;
         case ActionType.UPGRADE_AAIBA:
             newState.aaibaLevel = action.value;
@@ -126,12 +129,12 @@ const reducer = (state: GameState, action: Action ) => {
             newState.slaughterersLevel = action.value;
             return newState;
         case ActionType.DEPLOY_AAIBA:
-            newState.aaibaDeployed += 1;
-            newState.aaibaAvailable -= 1;
+            newState.aaibaDeployed += action.amount;
+            newState.aaibaAvailable -= action.amount;
             return newState;
         case ActionType.DEPLOY_SLAUGHTERER:
-            newState.slaughterersDeployed += 1;
-            newState.slaughterersAvailable -= 1;
+            newState.slaughterersDeployed += action.amount;
+            newState.slaughterersAvailable -= action.amount;
             return newState;
         case ActionType.UPGRADE_MINING_UNITS:
             newState.miningUnitsLevel = action.value;
@@ -168,6 +171,12 @@ const reducer = (state: GameState, action: Action ) => {
             return newState;
         case ActionType.SET_SENTRY_DRONES_AVAILABLE:
             newState.availableSentryDrones = action.payload;
+            return newState;
+        case ActionType.SET_AAIBA_DEPLOYED:
+            newState.aaibaDeployed = action.payload;
+            return newState;
+        case ActionType.SET_SLAUGHTERERS_DEPLOYED:
+            newState.slaughterersDeployed = action.payload;
             return newState;
         default: return state;
     }
