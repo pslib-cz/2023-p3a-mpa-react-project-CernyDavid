@@ -1,7 +1,8 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GameStateContext } from '../providers/GameStateProvider';
 import { ActionType } from '../providers/GameStateProvider';
+import Fight from './Fight';
 
 export type Enemy = {
     name: string;
@@ -19,6 +20,7 @@ const enemies: Enemy[] = [
 
 const Battlefield = () => {
     const {state, dispatch} = useContext(GameStateContext);
+    const [showFight, setShowFight] = useState(false);
 
     useEffect(() => {
         const aaibaAvailable = parseInt(localStorage.getItem('aaibaAvailable') || '0');
@@ -71,18 +73,24 @@ const Battlefield = () => {
     return (
         <div>
             <h1>Battlefield</h1>
-            <h2>Soldiers</h2>
-            <p>AAIBA: {state.aaibaAvailable}, level: {state.aaibaLevel}</p>
-            <p>Slaughterers: {state.slaughterersAvailable}, level: {state.slaughterersLevel}</p>
-            <h2>Deployed</h2>
-            <p>AAIBA: {state.aaibaDeployed}</p>
-            <button onClick={() => deployAaiba()}>Deploy AAIBA</button>
-            <p>Slaughterers: {state.slaughterersDeployed}</p>
-            <button onClick={() => deploySlaughterer()}>Deploy Slaughterer</button>
-            <h2>Enemy</h2>
-            <p>{getCurrentEnemy().name}, level: {getCurrentEnemy().level}</p>
-            <Link to="/base">Base</Link>
-            <Link to="/mining">Mining Grounds</Link>
+            {showFight === false ? (
+                <div>
+                    <h2>Soldiers</h2>
+                    <p>AAIBA: {state.aaibaAvailable}, level: {state.aaibaLevel}</p>
+                    <p>Slaughterers: {state.slaughterersAvailable}, level: {state.slaughterersLevel}</p>
+                    <h2>Deployed</h2>
+                    <p>AAIBA: {state.aaibaDeployed}</p>
+                    <button onClick={() => deployAaiba()}>Deploy AAIBA</button>
+                    <p>Slaughterers: {state.slaughterersDeployed}</p>
+                    <button onClick={() => deploySlaughterer()}>Deploy Slaughterer</button>
+                    <h2>Enemy</h2>
+                    <p>{getCurrentEnemy().name}, level: {getCurrentEnemy().level}</p>
+                    <Link to="/base">Base</Link>
+                    <Link to="/mining">Mining Grounds</Link>
+                    <button onClick={() => setShowFight(true)}>Fight</button>
+                </div>
+            ) : <Fight enemy={getCurrentEnemy()} aaibaDeployed={state.aaibaDeployed} slaughterersDeployed={state.slaughterersDeployed} aaibaLevel={state.aaibaLevel} slaughterersLevel={state.slaughterersLevel} setShowFight={setShowFight}/>}
+            
         </div>
     );
 };
