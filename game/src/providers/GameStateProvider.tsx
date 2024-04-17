@@ -21,22 +21,23 @@ export enum ActionType {
     DEPLOY_SLAUGHTERER,
     UPGRADE_MINING_UNITS,
     UPGRADE_SENTRY_DRONES,
-    ADD_METAL_MINING_UNITS,
-    ADD_CRYSTAL_MINING_UNITS,
-    ADD_GEMSTONE_MINING_UNITS,
-    ADD_METAL_SENTRY_DRONES,
-    ADD_CRYSTAL_SENTRY_DRONES,
-    ADD_GEMSTONE_SENTRY_DRONES,
+    SET_METAL_MINING_UNITS,
+    SET_CRYSTAL_MINING_UNITS,
+    SET_GEMSTONE_MINING_UNITS,
+    SET_METAL_SENTRY_DRONES,
+    SET_CRYSTAL_SENTRY_DRONES,
+    SET_GEMSTONE_SENTRY_DRONES,
     KILL_ENEMY,
     SET_RESOURCES,
     SET_MINING_UNITS_AVAILABLE,
     SET_SENTRY_DRONES_AVAILABLE
 }
 
-type Action = {type: ActionType.UPGRADE_FACTORY} | {type: ActionType.UPGRADE_BARRACKS} | {type: ActionType.UPGRADE_MAINFRAME} | {type: ActionType.UPGRADE_ARMORY} | {type: ActionType.UPGRADE_ARDC} | {type: ActionType.RESET} |
+type Action = {type: ActionType.UPGRADE_FACTORY, value: number} | {type: ActionType.UPGRADE_BARRACKS, value: number} | {type: ActionType.UPGRADE_MAINFRAME, value: number} | {type: ActionType.UPGRADE_ARMORY, value: number} | {type: ActionType.UPGRADE_ARDC, value: number} | {type: ActionType.RESET} |
 {type: ActionType.CREATE_AAIBA} | {type: ActionType.CREATE_SLAUGHTERER} | {type: ActionType.UPGRADE_AAIBA} | {type: ActionType.UPGRADE_SLAUGHTERER} | {type: ActionType.DEPLOY_AAIBA} | {type: ActionType.DEPLOY_SLAUGHTERER} |
-{type: ActionType.UPGRADE_MINING_UNITS} | {type: ActionType.UPGRADE_SENTRY_DRONES} | {type: ActionType.ADD_METAL_MINING_UNITS} | {type: ActionType.ADD_CRYSTAL_MINING_UNITS} | {type: ActionType.ADD_GEMSTONE_MINING_UNITS} |
-{type: ActionType.ADD_METAL_SENTRY_DRONES} | {type: ActionType.ADD_CRYSTAL_SENTRY_DRONES} | {type: ActionType.ADD_GEMSTONE_SENTRY_DRONES} | {type: ActionType.KILL_ENEMY} | {type: ActionType.SET_RESOURCES, payload: ResourcesType} |
+{type: ActionType.UPGRADE_MINING_UNITS} | {type: ActionType.UPGRADE_SENTRY_DRONES} | {type: ActionType.SET_METAL_MINING_UNITS, value: number} | {type: ActionType.SET_CRYSTAL_MINING_UNITS, value: number} | {type: ActionType.SET_GEMSTONE_MINING_UNITS, value: number} |
+{type: ActionType.SET_METAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_CRYSTAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_GEMSTONE_SENTRY_DRONES, value: number}
+| {type: ActionType.KILL_ENEMY} | {type: ActionType.SET_RESOURCES, payload: ResourcesType} |
 {type: ActionType.SET_MINING_UNITS_AVAILABLE, payload: number} | {type: ActionType.SET_SENTRY_DRONES_AVAILABLE, payload: number}
 
 type GameState = {
@@ -95,19 +96,19 @@ const reducer = (state: GameState, action: Action ) => {
     const newState = {...state}
     switch (action.type) {
         case ActionType.UPGRADE_FACTORY:
-            newState.factoryLevel += 1;
+            newState.factoryLevel = action.value;
             return newState;
         case ActionType.UPGRADE_BARRACKS:
-            newState.barracksLevel += 1;
+            newState.barracksLevel = action.value;
             return newState;
         case ActionType.UPGRADE_MAINFRAME:
-            newState.mainframeLevel += 1;
+            newState.mainframeLevel = action.value;
             return newState;
         case ActionType.UPGRADE_ARMORY:
-            newState.armoryLevel += 1;
+            newState.armoryLevel = action.value;
             return newState;
         case ActionType.UPGRADE_ARDC:
-            newState.ardcLevel += 1;
+            newState.ardcLevel = action.value;
             return newState;
         case ActionType.RESET:
             localStorage.clear();
@@ -138,23 +139,23 @@ const reducer = (state: GameState, action: Action ) => {
         case ActionType.UPGRADE_SENTRY_DRONES:
             newState.sentryDronesLevel += 1;
             return newState;
-        case ActionType.ADD_METAL_MINING_UNITS:
-            newState.metalMiningUnits += 1;
+        case ActionType.SET_METAL_MINING_UNITS:
+            newState.metalMiningUnits = action.value;
             return newState;
-        case ActionType.ADD_CRYSTAL_MINING_UNITS:
-            newState.crystalMiningUnits += 1;
+        case ActionType.SET_CRYSTAL_MINING_UNITS:
+            newState.crystalMiningUnits = action.value;
             return newState;
-        case ActionType.ADD_GEMSTONE_MINING_UNITS:
-            newState.gemstoneMiningUnits += 1;
+        case ActionType.SET_GEMSTONE_MINING_UNITS:
+            newState.gemstoneMiningUnits = action.value;
             return newState;
-        case ActionType.ADD_METAL_SENTRY_DRONES:
-            newState.metalSentryDrones += 1;
+        case ActionType.SET_METAL_SENTRY_DRONES:
+            newState.metalSentryDrones = action.value;
             return newState;
-        case ActionType.ADD_CRYSTAL_SENTRY_DRONES:
-            newState.crystalSentryDrones += 1;
+        case ActionType.SET_CRYSTAL_SENTRY_DRONES:
+            newState.crystalSentryDrones = action.value;
             return newState;
-        case ActionType.ADD_GEMSTONE_SENTRY_DRONES:
-            newState.gemstoneSentryDrones += 1;
+        case ActionType.SET_GEMSTONE_SENTRY_DRONES:
+            newState.gemstoneSentryDrones = action.value;
             return newState;
         case ActionType.KILL_ENEMY:
             newState.enemiesKilled += 1;

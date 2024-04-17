@@ -12,28 +12,26 @@ const MiningGrounds = () => {
         const metal = parseInt(localStorage.getItem('metal') || '0');
         const crystal = parseInt(localStorage.getItem('crystal') || '0');
         const gemstone = parseInt(localStorage.getItem('gemstone') || '0');
-        dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
         const metalMiningUnits = parseInt(localStorage.getItem('metalMiningUnits') || '0');
         const crystalMiningUnits = parseInt(localStorage.getItem('crystalMiningUnits') || '0');
         const gemstoneMiningUnits = parseInt(localStorage.getItem('gemstoneMiningUnits') || '0');
         const availableMiningUnits = parseInt(localStorage.getItem('availableMiningUnits') || '0');
+        dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
         setMiningUnitsToDeploy(availableMiningUnits - metalMiningUnits - crystalMiningUnits - gemstoneMiningUnits);
-        //setSentryDronesToDeploy(availableSentryDrones - metalSentryDrones - crystalSentryDrones - gemstoneSentryDrones);
 
-        //tohle nefachci, opravit
+        if (state.metalMiningUnits === 0) {
+            dispatch({type: ActionType.SET_METAL_MINING_UNITS, value: metalMiningUnits});
+            localStorage.setItem('metalMiningUnits', (metalMiningUnits).toString());
+        }
+        if (state.crystalMiningUnits === 0) {
+            dispatch({type: ActionType.SET_CRYSTAL_MINING_UNITS, value: crystalMiningUnits});
+            localStorage.setItem('crystalMiningUnits', (crystalMiningUnits).toString());
+        }
+        if (state.gemstoneMiningUnits === 0) {
+            dispatch({type: ActionType.SET_GEMSTONE_MINING_UNITS, value: gemstoneMiningUnits});
+            localStorage.setItem('gemstoneMiningUnits', (gemstoneMiningUnits).toString());
+        }
 
-        for (let i = metalMiningUnits; i > 0; i--) {
-            addMetalMiningUnit();
-            console.log('Adding metal mining unit');
-        }
-        for (let i = crystalMiningUnits; i > 0; i--) {
-            addCrystalMiningUnit();
-            console.log('Adding crystal mining unit');
-        }
-        for (let i = gemstoneMiningUnits; i > 0; i--) {
-            addGemstoneMiningUnit();
-            console.log('Adding gemstone mining unit');
-        }
     }, []);
 
     let prevMetal : number = state.resources.metal;
@@ -120,7 +118,7 @@ const MiningGrounds = () => {
             return;
         }
         setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
-        dispatch({type: ActionType.ADD_METAL_MINING_UNITS});
+        dispatch({type: ActionType.SET_METAL_MINING_UNITS, value: state.metalMiningUnits + 1});
         localStorage.setItem('metalMiningUnits', (state.metalMiningUnits + 1).toString());
     }
     const addCrystalMiningUnit = () => {
@@ -128,7 +126,7 @@ const MiningGrounds = () => {
             return;
         }
         setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
-        dispatch({type: ActionType.ADD_CRYSTAL_MINING_UNITS});
+        dispatch({type: ActionType.SET_CRYSTAL_MINING_UNITS, value: state.crystalMiningUnits + 1});
         localStorage.setItem('crystalMiningUnits', (state.crystalMiningUnits + 1).toString());
     }
     const addGemstoneMiningUnit = () => {
@@ -136,7 +134,7 @@ const MiningGrounds = () => {
             return;
         }
         setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
-        dispatch({type: ActionType.ADD_GEMSTONE_MINING_UNITS});
+        dispatch({type: ActionType.SET_GEMSTONE_MINING_UNITS, value: state.gemstoneMiningUnits + 1});
         localStorage.setItem('gemstoneMiningUnits', (state.gemstoneMiningUnits + 1).toString());
     }
 

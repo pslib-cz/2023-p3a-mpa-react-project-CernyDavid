@@ -10,30 +10,25 @@ const Base = () => {
         const metal = parseInt(localStorage.getItem('metal') || '0');
         const crystal = parseInt(localStorage.getItem('crystal') || '0');
         const gemstone = parseInt(localStorage.getItem('gemstone') || '0');
-        dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
         const factoryLevel = parseInt(localStorage.getItem('factoryLevel') || '0');
         const barracksLevel = parseInt(localStorage.getItem('barracksLevel') || '0');
         const mainframeLevel = parseInt(localStorage.getItem('mainframeLevel') || '0');
         const armoryLevel = parseInt(localStorage.getItem('armoryLevel') || '0');
         const ardcLevel = parseInt(localStorage.getItem('ardcLevel') || '0');
 
-       //factory zdvojnasoby level kdyz refresh zatimco availableMiningUnits je 0, fixnout 
+        console.log(state.mainframeLevel);
 
-        for (let i = state.factoryLevel; i < factoryLevel; i++) {
-            dispatch({type: ActionType.UPGRADE_FACTORY});
+        if (state.factoryLevel === 0 && state.barracksLevel === 0 && state.mainframeLevel === 0 && state.armoryLevel === 0 && state.ardcLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_FACTORY, value: factoryLevel});
+            dispatch({type: ActionType.UPGRADE_BARRACKS, value: barracksLevel});
+            dispatch({type: ActionType.UPGRADE_MAINFRAME, value: mainframeLevel});
+            dispatch({type: ActionType.UPGRADE_ARMORY, value: armoryLevel});
+            dispatch({type: ActionType.UPGRADE_ARDC, value: ardcLevel});
+            console.log('Base upgrades loaded');
         }
-        for (let i = state.barracksLevel; i < barracksLevel; i++) {
-            dispatch({type: ActionType.UPGRADE_BARRACKS});
-        }
-        for (let i = state.mainframeLevel; i < mainframeLevel; i++) {
-            dispatch({type: ActionType.UPGRADE_MAINFRAME});
-        }
-        for (let i = state.armoryLevel; i < armoryLevel; i++) {
-            dispatch({type: ActionType.UPGRADE_ARMORY});
-        }
-        for (let i = state.ardcLevel; i < ardcLevel; i++) {
-            dispatch({type: ActionType.UPGRADE_ARDC});
-        }
+
+        dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
+
     }, []);
 
     const upgradeFactory = () => {
@@ -47,8 +42,9 @@ const Base = () => {
         localStorage.setItem('crystal', newResources.crystal.toString());
         dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newLevel = state.factoryLevel + 1;
-        dispatch({type: ActionType.UPGRADE_FACTORY});
+        dispatch({type: ActionType.UPGRADE_FACTORY, value: newLevel});
         localStorage.setItem('factoryLevel', newLevel.toString());
+        console.log(newLevel);
         if (newLevel > 10) {
             dispatch({type: ActionType.SET_MINING_UNITS_AVAILABLE, payload: 10});
             localStorage.setItem('availableMiningUnits', "10");
@@ -68,22 +64,23 @@ const Base = () => {
     };
     const upgradeBarracks = () => {
         const newLevel = state.barracksLevel + 1;
-        dispatch({type: ActionType.UPGRADE_BARRACKS});
+        dispatch({type: ActionType.UPGRADE_BARRACKS, value: newLevel});
         localStorage.setItem('barracksLevel', newLevel.toString());
     };
     const upgradeMainframe = () => {
         const newLevel = state.mainframeLevel + 1;
-        dispatch({type: ActionType.UPGRADE_MAINFRAME});
+        dispatch({type: ActionType.UPGRADE_MAINFRAME, value: newLevel});
         localStorage.setItem('mainframeLevel', newLevel.toString());
+        console.log("level:" + newLevel);
     };
     const upgradeArmory = () => {
         const newLevel = state.armoryLevel + 1;
-        dispatch({type: ActionType.UPGRADE_ARMORY});
+        dispatch({type: ActionType.UPGRADE_ARMORY, value: newLevel});
         localStorage.setItem('armoryLevel', newLevel.toString());
     };
     const upgradeArdc = () => {
         const newLevel = state.ardcLevel + 1;
-        dispatch({type: ActionType.UPGRADE_ARDC});
+        dispatch({type: ActionType.UPGRADE_ARDC, value: newLevel});
         localStorage.setItem('ardcLevel', newLevel.toString());
     };
 
