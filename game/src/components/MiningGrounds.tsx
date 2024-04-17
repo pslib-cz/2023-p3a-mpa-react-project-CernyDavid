@@ -49,6 +49,13 @@ const MiningGrounds = () => {
             localStorage.setItem('gemstoneSentryDrones', (gemstoneSentryDrones).toString());
         }
 
+        if (state.miningUnitsLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_MINING_UNITS, value: parseInt(localStorage.getItem('miningUnitsLevel') || '1')});
+        }
+        if (state.sentryDronesLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_SENTRY_DRONES, value: parseInt(localStorage.getItem('sentryDronesLevel') || '1')});
+        }
+
     }, []);
 
     let prevMetal : number = state.resources.metal;
@@ -59,49 +66,74 @@ const MiningGrounds = () => {
         let interval: number;
         if (state.metalMiningUnits > 0 || state.crystalMiningUnits > 0 || state.gemstoneMiningUnits > 0) {
             interval = setInterval(() => {
+                let metalMUAmount = state.metalMiningUnits;
+                let crystalMUAmount = state.crystalMiningUnits;
+                let gemstoneMUAmount = state.gemstoneMiningUnits;
+                let MULevel = state.miningUnitsLevel;
+                let metalSDAmount = state.metalSentryDrones;
+                let crystalSDAmount = state.crystalSentryDrones;
+                let gemstoneSDAmount = state.gemstoneSentryDrones;
+                let SDLevel = state.sentryDronesLevel;
+            
+                let metalMiningAmount = metalMUAmount * Math.pow(2, (MULevel - 1)) * metalSDAmount * Math.pow(2, (SDLevel - 1)) +
+                    (metalSDAmount * (Math.pow(2, ((metalSDAmount - 1) * Math.pow(2, (SDLevel - 1)))))) * 10 +
+                    metalMUAmount * ((Math.pow(2, ((metalMUAmount - 1) * Math.pow(2, (MULevel - 1)) * metalSDAmount * Math.pow(2, (SDLevel - 1))) +
+                    (metalSDAmount * (Math.pow(2, ((metalSDAmount - 1) * Math.pow(2, (SDLevel - 1))))))))) * 10;
+                
+                let crystalMiningAmount = crystalMUAmount * Math.pow(2, (MULevel - 1)) * crystalSDAmount * Math.pow(2, (SDLevel - 1)) +
+                    (crystalSDAmount * (Math.pow(2, ((crystalSDAmount - 1) * Math.pow(2, (SDLevel - 1)))))) * 5 +
+                    crystalMUAmount * ((Math.pow(2, ((crystalMUAmount - 1) * Math.pow(2, (MULevel - 1)) * crystalSDAmount * Math.pow(2, (SDLevel - 1))) +
+                    (crystalSDAmount * (Math.pow(2, ((crystalSDAmount - 1) * Math.pow(2, (SDLevel - 1))))))))) * 5;
+
+                let gemstoneMiningAmount = gemstoneMUAmount * Math.pow(2, (MULevel - 1)) * gemstoneSDAmount * Math.pow(2, (SDLevel - 1)) +
+                    (gemstoneSDAmount * (Math.pow(2, ((gemstoneSDAmount - 1) * Math.pow(2, (SDLevel - 1)))))) * 2 +
+                    gemstoneMUAmount * ((Math.pow(2, ((gemstoneMUAmount - 1) * Math.pow(2, (MULevel - 1)) * gemstoneSDAmount * Math.pow(2, (SDLevel - 1))) +
+                    (gemstoneSDAmount * (Math.pow(2, ((gemstoneSDAmount - 1) * Math.pow(2, (SDLevel - 1))))))))) * 2;
+
+                
                 if (state.metalMiningUnits > 0 && state.crystalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: prevCrystal + state.crystalMiningUnits, gemstone: prevGemstone + state.gemstoneMiningUnits}});
-                    prevMetal += state.metalMiningUnits;
-                    prevCrystal += state.crystalMiningUnits;
-                    prevGemstone += state.gemstoneMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + metalMiningAmount, crystal: prevCrystal + crystalMiningAmount, gemstone: prevGemstone + gemstoneMiningAmount}});
+                    prevMetal += metalMiningAmount;
+                    prevCrystal += crystalMiningAmount;
+                    prevGemstone += gemstoneMiningAmount;
                     localStorage.setItem('metal', (prevMetal).toString());
                     localStorage.setItem('crystal', (prevCrystal).toString());
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
                 else if (state.metalMiningUnits > 0 && state.crystalMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: prevCrystal + state.crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
-                    prevMetal += state.metalMiningUnits;
-                    prevCrystal += state.crystalMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + metalMiningAmount, crystal: prevCrystal + crystalMiningAmount, gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
+                    prevMetal += metalMiningAmount;
+                    prevCrystal += crystalMiningAmount;
                     localStorage.setItem('metal', (prevMetal).toString());
                     localStorage.setItem('crystal', (prevCrystal).toString());
                 }
                 else if (state.metalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + state.gemstoneMiningUnits}});
-                    prevMetal += state.metalMiningUnits;
-                    prevGemstone += state.gemstoneMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + metalMiningAmount, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + gemstoneMiningAmount}});
+                    prevMetal += metalMiningAmount;
+                    prevGemstone += gemstoneMiningAmount;
                     localStorage.setItem('metal', (prevMetal).toString());
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
                 else if (state.crystalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + state.crystalMiningUnits, gemstone: prevGemstone + state.gemstoneMiningUnits}});
-                    prevCrystal += state.crystalMiningUnits;
-                    prevGemstone += state.gemstoneMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + crystalMiningAmount, gemstone: prevGemstone + gemstoneMiningAmount}});
+                    prevCrystal += crystalMiningAmount;
+                    prevGemstone += gemstoneMiningAmount;
                     localStorage.setItem('crystal', (prevCrystal).toString());
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
                 else if (state.metalMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + state.metalMiningUnits, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
-                    prevMetal += state.metalMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + metalMiningAmount, crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
+                    prevMetal += metalMiningAmount;
                     localStorage.setItem('metal', (prevMetal).toString());
                 }
                 else if (state.crystalMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + state.crystalMiningUnits, gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
-                    prevCrystal += state.crystalMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: prevCrystal + crystalMiningAmount, gemstone: parseInt(localStorage.getItem('gemstone') || '0')}});
+                    prevCrystal += crystalMiningAmount;
                     localStorage.setItem('crystal', (prevCrystal).toString());
                 }
                 else if (state.gemstoneMiningUnits > 0) {
-                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + state.gemstoneMiningUnits}});
-                    prevGemstone += state.gemstoneMiningUnits;
+                    dispatch({type: ActionType.SET_RESOURCES, payload: {metal: parseInt(localStorage.getItem('metal') || '0'), crystal: parseInt(localStorage.getItem('crystal') || '0'), gemstone: prevGemstone + gemstoneMiningAmount}});
+                    prevGemstone += gemstoneMiningAmount;
                     localStorage.setItem('gemstone', (prevGemstone).toString());
                 }
             }, 1000);

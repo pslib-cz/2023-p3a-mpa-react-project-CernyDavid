@@ -27,6 +27,13 @@ const Base = () => {
             console.log('Base upgrades loaded');
         }
 
+        if (state.miningUnitsLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_MINING_UNITS, value: parseInt(localStorage.getItem('miningUnitsLevel') || '1')});
+        }
+        if (state.sentryDronesLevel === 0) {
+            dispatch({type: ActionType.UPGRADE_SENTRY_DRONES, value: parseInt(localStorage.getItem('sentryDronesLevel') || '1')});
+        }
+
         dispatch({type: ActionType.SET_RESOURCES, payload: {metal, crystal, gemstone}});
 
     }, []);
@@ -112,7 +119,7 @@ const Base = () => {
             return;
         }
         const newAaibaLevel = state.aaibaLevel + 1;
-        dispatch({type: ActionType.UPGRADE_AAIBA});
+        dispatch({type: ActionType.UPGRADE_AAIBA, value: newAaibaLevel});
         localStorage.setItem('aaibaLevel', newAaibaLevel.toString());
     }
     const upgradeSlaughterer = () => {
@@ -120,7 +127,7 @@ const Base = () => {
             return;
         }
         const newSlaughterersLevel = state.slaughterersLevel + 1;
-        dispatch({type: ActionType.UPGRADE_SLAUGHTERER});
+        dispatch({type: ActionType.UPGRADE_SLAUGHTERER, value: newSlaughterersLevel});
         localStorage.setItem('slaughterersLevel', newSlaughterersLevel.toString());
     }
 
