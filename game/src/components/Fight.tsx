@@ -22,6 +22,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
     const [slaughterersIndex, setSlaughterersIndex] = useState(0);
     const [result, setResult] = useState('');
     const [showEndingScreen, setShowEndingScreen] = useState(false);
+    const [canBeEnded, setCanBeEnded] = useState(false);
 
     useEffect(() => {
         const initialAaibaHP: number[] = [];
@@ -39,6 +40,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
     useEffect(() => {
 
         const fightRound = setInterval(() => {
+            setCanBeEnded(true);
             console.log('fighting');
             if (aaibaIndex < aaibaDeployed) {
                 setEnemyHP((prevHP) => prevHP - 50 * aaibaLevel);
@@ -46,15 +48,12 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             else if (aaibaIndex === aaibaDeployed) {
                 setEnemyHP((prevHP) => prevHP - 100 * slaughterersLevel);
             }
-            const aaibaDamage = Math.floor(Math.random() * enemy.dmg) + 1;
-            const slaughterersDamage = Math.floor(Math.random() * enemy.dmg) + 1;
+            const aaibaDamage = Math.floor(Math.random() * (enemy.dmg - (enemy.dmg / 2) + 1)) + (enemy.dmg / 2);
+            const slaughterersDamage = Math.floor(Math.random() * (enemy.dmg - (enemy.dmg / 2) + 1)) + (enemy.dmg / 2);
             setAaibaHP((prevHP) => prevHP.map((hp, index) => index === aaibaIndex ? hp - aaibaDamage : hp));
             if (aaibaIndex === aaibaDeployed) {
                 setSlaughterersHP((prevHP) => prevHP.map((hp, index) => index === slaughterersIndex ? hp - slaughterersDamage : hp));
             }
-
-            const soldiersHP = aaibaHP.reduce((sum, hp) => sum + hp, 0) + slaughterersHP.reduce((sum, hp) => sum + hp, 0);
-            console.log(soldiersHP);
 
         }, 1000);
         
@@ -85,7 +84,10 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
         }
     }, [enemyHP]);
 
-    /*useEffect(() => {
+    useEffect(() => {
+        if (!canBeEnded) {
+            return;
+        }
         const soldiersHP = aaibaHP.reduce((sum, hp) => sum + hp, 0) + slaughterersHP.reduce((sum, hp) => sum + hp, 0);
         console.log(soldiersHP);
         if (soldiersHP < 1) {
@@ -96,18 +98,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             setResult('You have lost the battle');
             setShowEndingScreen(true);
         }
-    }, [aaibaHP, slaughterersHP]);*/
-
-    const handleSkipFight = () => {
-        /*clearInterval(fightRound);
-        while (enemyHP > 0 || (aaibaHP > 0 && slaughterersHP > 0)) {
-            setEnemyHP((prevHP) => prevHP - ((aaibaDeployed * aaibaLevel) + (slaughterersDeployed * slaughterersLevel)));
-            const aaibaDamage = Math.floor(Math.random() * enemy.dmg) + 1;
-            const slaughterersDamage = Math.floor(Math.random() * enemy.dmg) + 1;
-            setAaibaHP((prevHP) => prevHP - aaibaDamage);
-            setSlaughterersHP((prevHP) => prevHP - slaughterersDamage);
-        }*/
-    };
+    }, [aaibaHP, slaughterersHP, canBeEnded]);
 
     return (
         <div>
@@ -122,7 +113,6 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             {slaughterersHP.map((hp, index) => (
                 <p key={index}>Slaughterer {index + 1}: {hp}</p>
             ))}
-            <button onClick={handleSkipFight}>Skip Fight</button>
             {showEndingScreen && (
                 <div>
                     <h2>Result</h2>
