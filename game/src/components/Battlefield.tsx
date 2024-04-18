@@ -14,8 +14,8 @@ export type Enemy = {
 }
 
 const enemies: Enemy[] = [
-    {name: "Alien", level: 10, hp: 100, dmg: 10, xpDrop: 100, imgUrl: ""},
-    {name: "Stogner Alien", level: 20, hp: 200, dmg: 20, xpDrop: 200, imgUrl: ""}
+    {name: "Alien", level: 10, hp: 1000, dmg: 100, xpDrop: 100, imgUrl: ""},
+    {name: "Stonger Alien", level: 20, hp: 2000, dmg: 200, xpDrop: 200, imgUrl: ""}
 ];
 
 const Battlefield = () => {
@@ -29,6 +29,7 @@ const Battlefield = () => {
         const slaughterersLevel = parseInt(localStorage.getItem('slaughterersLevel') || '1');
         const aaibaDeployed = parseInt(localStorage.getItem('aaibaDeployed') || '0');
         const slaughterersDeployed = parseInt(localStorage.getItem('slaughterersDeployed') || '0');
+        const enemiesKilled = parseInt(localStorage.getItem('enemiesKilled') || '0');
 
         if (state.aaibaAvailable === 0 && state.slaughterersAvailable === 0) {
             dispatch({type: ActionType.CREATE_AAIBA, amount: aaibaAvailable});
@@ -42,6 +43,8 @@ const Battlefield = () => {
         if (state.slaughterersLevel === 0) {
             dispatch({type: ActionType.UPGRADE_SLAUGHTERER, value: slaughterersLevel});
         }
+
+        dispatch({type: ActionType.SET_ENEMIES_KILLED, value: enemiesKilled});
 
         dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: aaibaDeployed});
         dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: slaughterersDeployed});
@@ -67,6 +70,9 @@ const Battlefield = () => {
 
     const getCurrentEnemy = () => {
         const currentEnemy = enemies[state.enemiesKilled];
+        if (currentEnemy === undefined) {
+            return enemies[enemies.length - 1];
+        }
         return currentEnemy;
     }
 

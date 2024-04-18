@@ -27,7 +27,7 @@ export enum ActionType {
     SET_METAL_SENTRY_DRONES,
     SET_CRYSTAL_SENTRY_DRONES,
     SET_GEMSTONE_SENTRY_DRONES,
-    KILL_ENEMY,
+    SET_ENEMIES_KILLED,
     SET_RESOURCES,
     SET_MINING_UNITS_AVAILABLE,
     SET_SENTRY_DRONES_AVAILABLE,
@@ -39,7 +39,7 @@ type Action = {type: ActionType.UPGRADE_FACTORY, value: number} | {type: ActionT
 {type: ActionType.CREATE_AAIBA, amount: number} | {type: ActionType.CREATE_SLAUGHTERER, amount: number} | {type: ActionType.UPGRADE_AAIBA, value: number} | {type: ActionType.UPGRADE_SLAUGHTERER, value: number} | {type: ActionType.DEPLOY_AAIBA, amount: number} | {type: ActionType.DEPLOY_SLAUGHTERER, amount: number} |
 {type: ActionType.UPGRADE_MINING_UNITS, value: number} | {type: ActionType.UPGRADE_SENTRY_DRONES, value: number} | {type: ActionType.SET_METAL_MINING_UNITS, value: number} | {type: ActionType.SET_CRYSTAL_MINING_UNITS, value: number} | {type: ActionType.SET_GEMSTONE_MINING_UNITS, value: number} |
 {type: ActionType.SET_METAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_CRYSTAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_GEMSTONE_SENTRY_DRONES, value: number}
-| {type: ActionType.KILL_ENEMY} | {type: ActionType.SET_RESOURCES, payload: ResourcesType} |
+| {type: ActionType.SET_ENEMIES_KILLED, value: number} | {type: ActionType.SET_RESOURCES, payload: ResourcesType} |
 {type: ActionType.SET_MINING_UNITS_AVAILABLE, payload: number} | {type: ActionType.SET_SENTRY_DRONES_AVAILABLE, payload: number}
 | {type: ActionType.SET_AAIBA_DEPLOYED, payload: number} | {type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: number};
 
@@ -160,8 +160,8 @@ const reducer = (state: GameState, action: Action ) => {
         case ActionType.SET_GEMSTONE_SENTRY_DRONES:
             newState.gemstoneSentryDrones = action.value;
             return newState;
-        case ActionType.KILL_ENEMY:
-            newState.enemiesKilled += 1;
+        case ActionType.SET_ENEMIES_KILLED:
+            newState.enemiesKilled = action.value;
             return newState;
         case ActionType.SET_RESOURCES:
             newState.resources = action.payload;
