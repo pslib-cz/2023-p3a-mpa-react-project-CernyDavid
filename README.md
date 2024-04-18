@@ -8,7 +8,7 @@ Hra nemá konec, lze ji hrát "donekonečna". Cílem je získat co nejvyšší l
 ## Odkazy pro vývoj
 
 Zde budou živé linky na:
-- figma návrh stránek aplikace
+- figma návrh stránek aplikace - [link](https://www.figma.com/file/Ud7NXo1EMW25QHoo9L6A27/React-project?type=design&node-id=0-1&mode=design&t=GdXxIi0Gb55nIwbv-0)
 - odkaz do repozitáře projektu, pokud pracuji v teamu a zde vývoj neprobíhá
 
 ### Z čeho čerpat
