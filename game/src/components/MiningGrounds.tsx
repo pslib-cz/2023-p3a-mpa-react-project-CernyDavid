@@ -300,9 +300,18 @@ const MiningGrounds = () => {
                     <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/battle">Battlefield</Link>
                 </div>
                 <div className={"info-bar"}>
-                    <p>Metal: {state.resources.metal}</p>
-                    <p>Crystal: {state.resources.crystal}</p>
-                    <p>Gemstone: {state.resources.gemstone}</p>
+                    <div className={"info-bar__item"}>
+                        <img src="/imgs/metal.png" className={"info-bar__icon"} /> 
+                        <p>{state.resources.metal}</p>
+                    </div>
+                    <div className={"info-bar__item"}>
+                        <img src="/imgs/crystal.png" className={"info-bar__icon"} />
+                        <p>{state.resources.crystal}</p>
+                    </div>
+                    <div className={"info-bar__item"}>
+                        <img src="/imgs/gemstone.png" className={"info-bar__icon"} />
+                        <p>{state.resources.gemstone}</p>
+                    </div>
                 </div>
             </header>
             <p>Metal: {state.resources.metal}</p>
