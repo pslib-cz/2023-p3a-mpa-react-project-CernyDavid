@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { GameStateContext } from '../providers/GameStateProvider';
 import { ActionType } from '../providers/GameStateProvider';
 import Fight from './Fight';
+import '../styles/main.css';
 
 export type Enemy = {
     name: string;
@@ -78,7 +79,13 @@ const Battlefield = () => {
 
     return (
         <div>
-            <h1>Battlefield</h1>
+            <header className={"header"}>
+                <div className={"location-navigation"}>
+                    <Link className={"location-navigation__item" + " location-navigation__item--left" } to="/mining">Mining Grounds</Link>
+                    <h1 className={"location-name" + " location-name--bigger-padding"}>Battlefield</h1>
+                    <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/base">Base</Link>
+                </div>
+            </header>
             {showFight === false ? (
                 <div>
                     <h2>Soldiers</h2>
@@ -91,8 +98,6 @@ const Battlefield = () => {
                     <button onClick={() => deploySlaughterer()}>Deploy Slaughterer</button>
                     <h2>Enemy</h2>
                     <p>{getCurrentEnemy().name}, level: {getCurrentEnemy().level}</p>
-                    <Link to="/base">Base</Link>
-                    <Link to="/mining">Mining Grounds</Link>
                     <button onClick={() => setShowFight(true)}>Fight</button>
                 </div>
             ) : <Fight enemy={getCurrentEnemy()} aaibaDeployed={state.aaibaDeployed} slaughterersDeployed={state.slaughterersDeployed} aaibaLevel={state.aaibaLevel} slaughterersLevel={state.slaughterersLevel} setShowFight={setShowFight}/>}

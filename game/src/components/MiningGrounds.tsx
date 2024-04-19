@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GameStateContext } from "../providers/GameStateProvider";
 import { ActionType } from "../providers/GameStateProvider";
+import '../styles/main.css';
 
 const MiningGrounds = () => {
     const {state, dispatch} = useContext(GameStateContext);
@@ -74,21 +75,48 @@ const MiningGrounds = () => {
                 let crystalSDAmount = state.crystalSentryDrones;
                 let gemstoneSDAmount = state.gemstoneSentryDrones;
                 let SDLevel = state.sentryDronesLevel;
-            
-                let metalMiningAmount = metalMUAmount * Math.pow(2, (MULevel - 1)) * metalSDAmount * Math.pow(2, (SDLevel - 1)) +
-                    (metalSDAmount * (Math.pow(2, ((metalSDAmount - 1) * Math.pow(2, (SDLevel - 1)))))) * 10 +
-                    metalMUAmount * ((Math.pow(2, ((metalMUAmount - 1) * Math.pow(2, (MULevel - 1)) * metalSDAmount * Math.pow(2, (SDLevel - 1))) +
-                    (metalSDAmount * (Math.pow(2, ((metalSDAmount - 1) * Math.pow(2, (SDLevel - 1))))))))) * 10;
-                
-                let crystalMiningAmount = crystalMUAmount * Math.pow(2, (MULevel - 1)) * crystalSDAmount * Math.pow(2, (SDLevel - 1)) +
-                    (crystalSDAmount * (Math.pow(2, ((crystalSDAmount - 1) * Math.pow(2, (SDLevel - 1)))))) * 5 +
-                    crystalMUAmount * ((Math.pow(2, ((crystalMUAmount - 1) * Math.pow(2, (MULevel - 1)) * crystalSDAmount * Math.pow(2, (SDLevel - 1))) +
-                    (crystalSDAmount * (Math.pow(2, ((crystalSDAmount - 1) * Math.pow(2, (SDLevel - 1))))))))) * 5;
 
-                let gemstoneMiningAmount = gemstoneMUAmount * Math.pow(2, (MULevel - 1)) * gemstoneSDAmount * Math.pow(2, (SDLevel - 1)) +
-                    (gemstoneSDAmount * (Math.pow(2, ((gemstoneSDAmount - 1) * Math.pow(2, (SDLevel - 1)))))) * 2 +
-                    gemstoneMUAmount * ((Math.pow(2, ((gemstoneMUAmount - 1) * Math.pow(2, (MULevel - 1)) * gemstoneSDAmount * Math.pow(2, (SDLevel - 1))) +
-                    (gemstoneSDAmount * (Math.pow(2, ((gemstoneSDAmount - 1) * Math.pow(2, (SDLevel - 1))))))))) * 2;
+                let metalSDBoostExtra = (metalSDAmount-1) * Math.pow(2, (SDLevel - 1));
+                if (metalSDAmount < 2) {
+                    metalSDBoostExtra = 0;
+                }
+                let metalSDBoost = Math.pow(2 ,metalSDAmount * Math.pow(2, (SDLevel - 1)) + metalSDBoostExtra);
+                if (metalSDAmount < 1) {
+                    metalSDBoost = 1;
+                }
+                let metalMPSExtra = 10 * (metalMUAmount-1) * Math.pow(2, (MULevel - 1)) * metalSDBoost;
+                if (metalMUAmount < 2) {
+                    metalMPSExtra = 0;
+                }
+                let metalMiningAmount = 10 * metalMUAmount * Math.pow(2, (MULevel - 1)) * metalSDBoost + (metalMUAmount * metalMPSExtra);
+
+                let crystalSDBoostExtra = (crystalSDAmount-1) * Math.pow(2, (SDLevel - 1));
+                if (crystalSDAmount < 2) {
+                    crystalSDBoostExtra = 0;
+                }
+                let crystalSDBoost = Math.pow(2 ,crystalSDAmount * Math.pow(2, (SDLevel - 1)) + crystalSDBoostExtra);
+                if (crystalSDAmount < 1) {
+                    crystalSDBoost = 1;
+                }
+                let crystalMPSExtra = 5 * (crystalMUAmount-1) * Math.pow(2, (MULevel - 1)) * crystalSDBoost;
+                if (crystalMUAmount < 2) {
+                    crystalMPSExtra = 0;
+                }	
+                let crystalMiningAmount = 5 * crystalMUAmount * Math.pow(2, (MULevel - 1)) * crystalSDBoost + (crystalMUAmount * crystalMPSExtra);
+            
+                let gemstoneSDBoostExtra = (gemstoneSDAmount-1) * Math.pow(2, (SDLevel - 1));
+                if (gemstoneSDAmount < 2) {
+                    gemstoneSDBoostExtra = 0;
+                }
+                let gemstoneSDBoost = Math.pow(2 ,gemstoneSDAmount * Math.pow(2, (SDLevel - 1)) + gemstoneSDBoostExtra);
+                if (gemstoneSDAmount < 1) {
+                    gemstoneSDBoost = 1;
+                }
+                let gemstoneMPSExtra = 2 * (gemstoneMUAmount-1) * Math.pow(2, (MULevel - 1)) * gemstoneSDBoost;
+                if (gemstoneMUAmount < 2) {
+                    gemstoneMPSExtra = 0;
+                }
+                let gemstoneMiningAmount = 2 * gemstoneMUAmount * Math.pow(2, (MULevel - 1)) * gemstoneSDBoost + (gemstoneMUAmount * gemstoneMPSExtra);
 
                 
                 if (state.metalMiningUnits > 0 && state.crystalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
@@ -265,7 +293,18 @@ const MiningGrounds = () => {
 
     return (
         <div>
-            <h1>Mining Grounds</h1>
+            <header className={"header"}>
+                <div className={"location-navigation"}>
+                    <Link className={"location-navigation__item" + " location-navigation__item--left" } to="/base">Base</Link>
+                    <h1 className={"location-name"}>Mining Grounds</h1>
+                    <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/battle">Battlefield</Link>
+                </div>
+                <div className={"info-bar"}>
+                    <p>Metal: {state.resources.metal}</p>
+                    <p>Crystal: {state.resources.crystal}</p>
+                    <p>Gemstone: {state.resources.gemstone}</p>
+                </div>
+            </header>
             <p>Metal: {state.resources.metal}</p>
             <button onClick={() => mineMetal(getClickAmount() * 10)}>Mine Metal</button>
             <button onClick={() => addMetalMiningUnit()}>Add Miner</button>
@@ -290,8 +329,6 @@ const MiningGrounds = () => {
             <h2>Automation</h2>
             <p>Mining units: {miningUnitsToDeploy}, level: {state.miningUnitsLevel}</p>
             <p>Sentry drones: {sentryDronesToDeploy}, level: {state.sentryDronesLevel}</p>
-            <Link to="/battle">Battlefield</Link>
-            <Link to="/base">Base</Link>
         </div>
     );
 }

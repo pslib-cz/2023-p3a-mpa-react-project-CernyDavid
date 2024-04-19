@@ -1,0 +1,57 @@
+.location-navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2em;
+}
+
+.location-navigation__item {
+    display: block;
+    font-size: 1.5rem;
+    color: lightblue;
+    width: 180px;
+}
+
+.location-navigation__item--left {
+    text-align: left;
+}
+.location-navigation__item--right {
+    text-align: right;
+}
+
+.info-bar {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: center;
+}
+
+.location-name {
+    padding: 0;
+    margin: 0;
+}
+
+.location-name--bigger-padding {
+    padding: 0.5em 0;
+    margin: 0;
+}
+
+.header {
+    background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5), 
+      rgba(0, 0, 0, 0.5)
+    ),
+    url(/imgs/metal-texture.png);
+    background-repeat: repeat-x;
+    background-size: 50%;
+    width: 80vw;
+    margin: 0 auto;
+}
+
+@media (min-width: 1800px) {
+    .header {
+        width: 1000px;
+    }
+}
