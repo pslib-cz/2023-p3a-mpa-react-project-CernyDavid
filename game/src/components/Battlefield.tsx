@@ -60,9 +60,10 @@ const Battlefield = () => {
             <header className={"header"}>
                 <div className={"location-navigation"}>
                     <Link className={"location-navigation__item" + " location-navigation__item--left" } to="/mining">Mining Grounds</Link>
-                    <h1 className={"location-name" + " location-name--bigger-padding"}>Battlefield</h1>
+                    <h1 className={"location-name" + " location-name--desktop-only" + " location-name--bigger-padding"}>Battlefield</h1>
                     <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/base">Base</Link>
                 </div>
+                <h1 className={"location-name" + " location-name--mobile-only" + " location-name--bigger-padding"}>Battlefield</h1>
             </header>
             {showFight === false ? (
                 <div>

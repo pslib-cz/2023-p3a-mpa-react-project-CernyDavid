@@ -230,13 +230,14 @@ const MiningGrounds = () => {
     }
 
     return (
-        <div>
+        <div className={"mining"}>
             <header className={"header"}>
                 <div className={"location-navigation"}>
                     <Link className={"location-navigation__item" + " location-navigation__item--left" } to="/base">Base</Link>
-                    <h1 className={"location-name"}>Mining Grounds</h1>
+                    <h1 className={"location-name" + " location-name--desktop-only"}>Mining Grounds</h1>
                     <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/battle">Battlefield</Link>
                 </div>
+                <h1 className={"location-name" + " location-name--mobile-only"}>Mining Grounds</h1>
                 <div className={"info-bar"}>
                     <div className={"info-bar__item"}>
                         <img src="/imgs/metal.png" className={"info-bar__icon"} /> 

@@ -106,9 +106,10 @@ const Base = () => {
             <header className={"header"}>
                 <div className={"location-navigation"}>
                     <Link className={"location-navigation__item" + " location-navigation__item--left" } to="/battle">Battlefield</Link>
-                    <h1 className={"location-name"}>Base</h1>
+                    <h1 className={"location-name" + " location-name--desktop-only"}>Base</h1>
                     <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/mining">Mining Grounds</Link>
                 </div>
+                <h1 className={"location-name" + " location-name--mobile-only"}>Base</h1>
                 <div className={"info-bar"}>
                     <div className={"info-bar__item"}>
                         <img src="/imgs/metal.png" className={"info-bar__icon"} /> 

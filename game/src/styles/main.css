@@ -1,16 +1,21 @@
+html {
+    font-size: 16px;
+}
+
 .location-navigation {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2em;
+    padding: 0.25em 2em;
 }
 
 .location-navigation__item {
     display: block;
-    font-size: 1.5rem;
     color: lightblue;
-    width: 180px;
+    width: 140px;
+    line-height: 1em;
+    font-size: 18px;
 }
 
 .location-navigation__item--left {
@@ -22,15 +27,17 @@
 
 .info-bar {
     display: flex;
-    flex-direction: row;
-    gap: 1em;
+    flex-direction: column;
+    gap: 0.5em;
     justify-content: center;
+    align-items: center;
     padding: 0.5em 0;
 }
 
 .location-name {
     padding: 0;
     margin: 0;
+    font-size: 32px;
 }
 
 .location-name--bigger-padding {
@@ -45,10 +52,9 @@
       rgba(0, 0, 0, 0.5)
     ),
     url(/imgs/metal-texture.png);
-    background-repeat: repeat-x;
+    background-repeat: repeat;
     background-size: 50%;
-    width: 80vw;
-    margin: 0 auto;
+    width: 100vw;
 }
 
 .info-bar__item {
@@ -69,8 +75,37 @@
     height: 40px;
 }
 
-@media (min-width: 1800px) {
+.location-name--mobile-only {
+    display: inline-block;
+}
+
+.location-name--desktop-only {
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    html {
+        font-size: 18px;
+    }
+    .location-name--mobile-only {
+        display: none;
+    }
+    .location-name--desktop-only {
+        display: inline-block;
+    }
     .header {
         width: 1000px;
+        margin: 0 auto;
     }
+    .location-name {
+        font-size: 48px;
+    }
+    .location-navigation__item {
+        font-size: 28px;
+        width: 220px;
+    }
+    .info-bar {
+        flex-direction: row;
+        gap: 1em;
+    }	
 }
