@@ -32,7 +32,8 @@ export enum ActionType {
     SET_MINING_UNITS_AVAILABLE,
     SET_SENTRY_DRONES_AVAILABLE,
     SET_AAIBA_DEPLOYED,
-    SET_SLAUGHTERERS_DEPLOYED
+    SET_SLAUGHTERERS_DEPLOYED,
+    SET_GAMESTATE
 }
 
 type Action = {type: ActionType.UPGRADE_FACTORY, value: number} | {type: ActionType.UPGRADE_BARRACKS, value: number} | {type: ActionType.UPGRADE_MAINFRAME, value: number} | {type: ActionType.UPGRADE_ARMORY, value: number} | {type: ActionType.UPGRADE_ARDC, value: number} | {type: ActionType.RESET} |
@@ -41,7 +42,7 @@ type Action = {type: ActionType.UPGRADE_FACTORY, value: number} | {type: ActionT
 {type: ActionType.SET_METAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_CRYSTAL_SENTRY_DRONES, value: number} | {type: ActionType.SET_GEMSTONE_SENTRY_DRONES, value: number}
 | {type: ActionType.SET_ENEMIES_KILLED, value: number} | {type: ActionType.SET_RESOURCES, payload: ResourcesType} |
 {type: ActionType.SET_MINING_UNITS_AVAILABLE, payload: number} | {type: ActionType.SET_SENTRY_DRONES_AVAILABLE, payload: number}
-| {type: ActionType.SET_AAIBA_DEPLOYED, payload: number} | {type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: number};
+| {type: ActionType.SET_AAIBA_DEPLOYED, payload: number} | {type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: number} | {type: ActionType.SET_GAMESTATE, payload: GameState};
 
 type GameState = {
     resources: ResourcesType;
@@ -178,6 +179,8 @@ const reducer = (state: GameState, action: Action ) => {
         case ActionType.SET_SLAUGHTERERS_DEPLOYED:
             newState.slaughterersDeployed = action.payload;
             return newState;
+        case ActionType.SET_GAMESTATE:
+            return action.payload;
         default: return state;
     }
 

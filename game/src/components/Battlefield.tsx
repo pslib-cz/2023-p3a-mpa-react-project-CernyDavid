@@ -24,49 +24,27 @@ const Battlefield = () => {
     const [showFight, setShowFight] = useState(false);
 
     useEffect(() => {
-        const aaibaAvailable = parseInt(localStorage.getItem('aaibaAvailable') || '0');
-        const slaughterersAvailable = parseInt(localStorage.getItem('slaughterersAvailable') || '0');
-        const aaibaLevel = parseInt(localStorage.getItem('aaibaLevel') || '1');
-        const slaughterersLevel = parseInt(localStorage.getItem('slaughterersLevel') || '1');
-        const aaibaDeployed = parseInt(localStorage.getItem('aaibaDeployed') || '0');
-        const slaughterersDeployed = parseInt(localStorage.getItem('slaughterersDeployed') || '0');
-        const enemiesKilled = parseInt(localStorage.getItem('enemiesKilled') || '0');
-
-        if (state.aaibaAvailable === 0 && state.slaughterersAvailable === 0) {
-            dispatch({type: ActionType.CREATE_AAIBA, amount: aaibaAvailable});
-            dispatch({type: ActionType.CREATE_SLAUGHTERER, amount: slaughterersAvailable});
-            console.log('Soldiers loaded');
+        const serializedState = localStorage.getItem('gameState');
+        if (serializedState) {
+            dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
-
-        if (state.aaibaLevel === 0) {
-            dispatch({type: ActionType.UPGRADE_AAIBA, value: aaibaLevel});
-        }
-        if (state.slaughterersLevel === 0) {
-            dispatch({type: ActionType.UPGRADE_SLAUGHTERER, value: slaughterersLevel});
-        }
-
-        dispatch({type: ActionType.SET_ENEMIES_KILLED, value: enemiesKilled});
-
-        dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: aaibaDeployed});
-        dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: slaughterersDeployed});
-
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem('gameState', JSON.stringify(state));
+    }, [state]);
 
     const deployAaiba = () => {
         if (state.aaibaAvailable === 0) {
             return;
         }
         dispatch({type: ActionType.DEPLOY_AAIBA, amount: 1});
-        localStorage.setItem('aaibaAvailable', (state.aaibaAvailable - 1).toString());
-        localStorage.setItem('aaibaDeployed', (state.aaibaDeployed + 1).toString());
     };
     const deploySlaughterer = () => {
         if (state.slaughterersAvailable === 0) {
             return;
         }
         dispatch({type: ActionType.DEPLOY_SLAUGHTERER, amount: 1});
-        localStorage.setItem('slaughterersAvailable', (state.slaughterersAvailable - 1).toString());
-        localStorage.setItem('slaughterersDeployed', (state.slaughterersDeployed + 1).toString());
     };
 
     const getCurrentEnemy = () => {

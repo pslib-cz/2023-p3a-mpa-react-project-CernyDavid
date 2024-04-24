@@ -23,6 +23,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
     const [result, setResult] = useState('');
     const [showEndingScreen, setShowEndingScreen] = useState(false);
     const [canBeEnded, setCanBeEnded] = useState(false);
+    const [fightEnded, setFightEnded] = useState(false);
 
     useEffect(() => {
         const initialAaibaHP: number[] = [];
@@ -37,11 +38,16 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
         setSlaughterersHP(initialSlaughterersHP);
     }, []);
 
+    let fightRound: number;
+
     useEffect(() => {
 
-        const fightRound = setInterval(() => {
+        if (fightEnded) {
+            return;
+        }
+
+        fightRound = setInterval(() => {
             setCanBeEnded(true);
-            console.log('fighting');
             if (aaibaIndex < aaibaDeployed) {
                 setEnemyHP((prevHP) => prevHP - 50 * aaibaLevel);
             }
@@ -58,7 +64,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
         }, 1000);
         
         return () => clearInterval(fightRound);
-    }, [aaibaIndex, slaughterersIndex]);
+    }, [aaibaIndex, slaughterersIndex, fightEnded]);
 
     useEffect(() => {
         if (aaibaHP[aaibaIndex] < 1) {
@@ -72,13 +78,13 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
     }, [slaughterersHP]);
     
     useEffect(() => {
-        if (enemyHP <= 0) {
+        console.log('enemy hp: ', enemyHP);
+        if (enemyHP < 1) {
+            clearInterval(fightRound);
+            setFightEnded(true);
             dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_ENEMIES_KILLED, value: state.enemiesKilled + 1});
-            localStorage.setItem('aaibaDeployed', '0');
-            localStorage.setItem('slaughterersDeployed', '0');
-            localStorage.setItem('enemiesKilled', (state.enemiesKilled + 1).toString());
             setResult(`You have defeated the ${enemy.name}!`);
             setShowEndingScreen(true);
         }
@@ -89,12 +95,11 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             return;
         }
         const soldiersHP = aaibaHP.reduce((sum, hp) => sum + hp, 0) + slaughterersHP.reduce((sum, hp) => sum + hp, 0);
-        console.log(soldiersHP);
         if (soldiersHP < 1) {
+            clearInterval(fightRound);
+            setFightEnded(true);
             dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: 0});
-            localStorage.setItem('aaibaDeployed', '0');
-            localStorage.setItem('slaughterersDeployed', '0');
             setResult('You have lost the battle');
             setShowEndingScreen(true);
         }
