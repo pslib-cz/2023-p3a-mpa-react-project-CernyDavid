@@ -22,15 +22,20 @@ const enemies: Enemy[] = [
 const Battlefield = () => {
     const {state, dispatch} = useContext(GameStateContext);
     const [showFight, setShowFight] = useState(false);
+    const [canBeUpdated, setCanBeUpdated] = useState(false);
 
     useEffect(() => {
         const serializedState = localStorage.getItem('gameState');
         if (serializedState) {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
+        setCanBeUpdated(true);
     }, []);
 
     useEffect(() => {
+        if (!canBeUpdated) {
+            return;
+        }
         localStorage.setItem('gameState', JSON.stringify(state));
     }, [state]);
 

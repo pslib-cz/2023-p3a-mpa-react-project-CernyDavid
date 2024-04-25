@@ -8,6 +8,10 @@ const MiningGrounds = () => {
     const {state, dispatch} = useContext(GameStateContext);
     const [miningUnitsToDeploy, setMiningUnitsToDeploy] = useState<number>(0);
     const [sentryDronesToDeploy, setSentryDronesToDeploy] = useState<number>(0);
+    const [canBeUpdated, setCanBeUpdated] = useState(false);
+    const [metalClicked, setMetalClicked] = useState(false);
+    const [crystalClicked, setCrystalClicked] = useState(false);
+    const [gemstoneClicked, setGemstoneClicked] = useState(false);
 
     useEffect(() => {
         setMiningUnitsToDeploy(state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits);
@@ -17,9 +21,13 @@ const MiningGrounds = () => {
         if (serializedState) {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
+        setCanBeUpdated(true);
     }, []);
 
     useEffect(() => {
+        if (!canBeUpdated) {
+            return;
+        }
         localStorage.setItem('gameState', JSON.stringify(state));
     }, [state]);
 
@@ -253,8 +261,13 @@ const MiningGrounds = () => {
                     </div>
                 </div>
             </header>
-            <p>Metal: {state.resources.metal}</p>
-            <button onClick={() => mineMetal(getClickAmount() * 10)}>Mine Metal</button>
+            <div className={"resource"}>
+                <div className={metalClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineMetal(getClickAmount() * 10);
+                    setMetalClicked(true);
+                }} onAnimationEnd={() => setMetalClicked(false)}>
+                    <img src="/imgs/metal.png" className={"resource__image"} draggable="false"/> 
+                </div>
+            </div>
             <button onClick={() => addMetalMiningUnit()}>Add Miner</button>
             <button onClick={() => addMetalSentryDrone()}>Add Sentry Drone</button>
             <button onClick={() => removeMetalMiningUnit()}>Remove Miner</button>
