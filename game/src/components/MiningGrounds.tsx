@@ -12,6 +12,10 @@ const MiningGrounds = () => {
     const [metalClicked, setMetalClicked] = useState(false);
     const [crystalClicked, setCrystalClicked] = useState(false);
     const [gemstoneClicked, setGemstoneClicked] = useState(false);
+    const [showMetalAutomatonsMenu, setShowMetalAutomatonsMenu] = useState(false);
+    const [showCrystalAutomatonsMenu, setShowCrystalAutomatonsMenu] = useState(false);
+    const [showGemstoneAutomatonsMenu, setShowGemstoneAutomatonsMenu] = useState(false);
+    const [viewAutomation, setViewAutomation] = useState(false);
 
     useEffect(() => {
         setMiningUnitsToDeploy(state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits);
@@ -261,35 +265,102 @@ const MiningGrounds = () => {
                     </div>
                 </div>
             </header>
-            <div className={"resource"}>
-                <div className={metalClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineMetal(getClickAmount() * 10);
-                    setMetalClicked(true);
-                }} onAnimationEnd={() => setMetalClicked(false)}>
-                    <img src="/imgs/metal.png" className={"resource__image"} draggable="false"/> 
+            <div className={"resources-container"}>
+                <div className={"resource"}>
+                    <div className={"resource__automatons"} onClick={() => setShowMetalAutomatonsMenu(prev => !prev)}>
+                        <div className={"automatons__item"}>
+                            <img src="/imgs/mining_unit.png" className={"automatons__image"} />
+                            <p className={"automatons__amount"}>{state.metalMiningUnits}</p>
+                        </div>
+                        <div className={"automatons__item"}>
+                            <img src="/imgs/sentry_drone.png" className={"automatons__image"} />
+                            <p className={"automatons__amount"}>{state.metalSentryDrones}</p>
+                        </div>
+                    </div>
+                    <div className={showMetalAutomatonsMenu ? "automatons__menu automatons__menu--visible" : "automatons__menu"} onClick={() => setShowMetalAutomatonsMenu(false)}>
+                        <button onClick={(e) => { e.stopPropagation(); addMetalMiningUnit(); }}>Add Mining Unit</button>
+                        <button onClick={(e) => { e.stopPropagation(); addMetalSentryDrone(); }}>Add Sentry Drone</button>
+                        <button onClick={(e) => { e.stopPropagation(); removeMetalMiningUnit(); }}>Remove Mining Unit</button>
+                        <button onClick={(e) => { e.stopPropagation(); removeMetalSentryDrone(); }}>Remove Sentry Drone</button>
+                    </div>
+                    <div className={metalClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineMetal(getClickAmount() * 10);
+                        setMetalClicked(true);
+                    }} onAnimationEnd={() => setMetalClicked(false)}>
+                        <img src="/imgs/metal.png" className={"resource__image"} draggable="false"/> 
+                    </div>
+                </div>
+                <div className={"resource"}>
+                    <div className={"resource__automatons"} onClick={() => setShowCrystalAutomatonsMenu(prev => !prev)}>
+                        <div className={"automatons__item"}>
+                            <img src="/imgs/mining_unit.png" className={"automatons__image"} />
+                            <p className={"automatons__amount"}>{state.crystalMiningUnits}</p>
+                        </div>
+                        <div className={"automatons__item"}>
+                            <img src="/imgs/sentry_drone.png" className={"automatons__image"} />
+                            <p className={"automatons__amount"}>{state.crystalSentryDrones}</p>
+                        </div>
+                    </div>
+                    <div className={showCrystalAutomatonsMenu ? "automatons__menu automatons__menu--visible" : "automatons__menu"} onClick={() => setShowCrystalAutomatonsMenu(false)}>
+                        <button onClick={(e) => { e.stopPropagation(); addCrystalMiningUnit(); }}>Add Mining Unit</button>
+                        <button onClick={(e) => { e.stopPropagation(); addCrystalSentryDrone(); }}>Add Sentry Drone</button>
+                        <button onClick={(e) => { e.stopPropagation(); removeCrystalMiningUnit(); }}>Remove Mining Unit</button>
+                        <button onClick={(e) => { e.stopPropagation(); removeCrystalSentryDrone(); }}>Remove Sentry Drone</button>
+                    </div>
+                    <div className={crystalClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineCrystal(getClickAmount() * 5);
+                        setCrystalClicked(true);
+                    }} onAnimationEnd={() => setCrystalClicked(false)}>
+                        <img src="/imgs/crystal.png" className={"resource__image"} draggable="false"/> 
+                    </div>
+                </div>
+                <div className={"resource"}>
+                    <div className={"resource__automatons"} onClick={() => setShowGemstoneAutomatonsMenu(prev => !prev)}>
+                        <div className={"automatons__item"}>
+                            <img src="/imgs/mining_unit.png" className={"automatons__image"} />
+                            <p className={"automatons__amount"}>{state.gemstoneMiningUnits}</p>
+                        </div>
+                        <div className={"automatons__item"}>
+                            <img src="/imgs/sentry_drone.png" className={"automatons__image"} />
+                            <p className={"automatons__amount"}>{state.gemstoneSentryDrones}</p>
+                        </div>
+                    </div>
+                    <div className={showGemstoneAutomatonsMenu ? "automatons__menu automatons__menu--visible" : "automatons__menu"} onClick={() => setShowGemstoneAutomatonsMenu(false)}>
+                        <button onClick={(e) => { e.stopPropagation(); addGemstoneMiningUnit(); }}>Add Mining Unit</button>
+                        <button onClick={(e) => { e.stopPropagation(); addGemstoneSentryDrone(); }}>Add Sentry Drone</button>
+                        <button onClick={(e) => { e.stopPropagation(); removeGemstoneMiningUnit(); }}>Remove Mining Unit</button>
+                        <button onClick={(e) => { e.stopPropagation(); removeGemstoneSentryDrone(); }}>Remove Sentry Drone</button>
+                    </div>
+                    <div className={gemstoneClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineGemstone(getClickAmount() * 2);
+                        setGemstoneClicked(true);
+                    }} onAnimationEnd={() => setGemstoneClicked(false)}>
+                        <img src="/imgs/gemstone.png" className={"resource__image"} draggable="false"/> 
+                    </div>
                 </div>
             </div>
-            <button onClick={() => addMetalMiningUnit()}>Add Miner</button>
-            <button onClick={() => addMetalSentryDrone()}>Add Sentry Drone</button>
-            <button onClick={() => removeMetalMiningUnit()}>Remove Miner</button>
-            <button onClick={() => removeMetalSentryDrone()}>Remove Sentry Drone</button>
-            <p>{state.metalMiningUnits} mining metal.</p>
-            <p>Crystal: {state.resources.crystal}</p>
-            <button onClick={() => mineCrystal(getClickAmount() * 5)}>Mine Crystal</button>
-            <button onClick={() => addCrystalMiningUnit()}>Add Miner</button>
-            <button onClick={() => addCrystalSentryDrone()}>Add Sentry Drone</button>
-            <button onClick={() => removeCrystalMiningUnit()}>Remove Miner</button>
-            <button onClick={() => removeCrystalSentryDrone()}>Remove Sentry Drone</button>
-            <p>{state.crystalMiningUnits} mining crystal.</p>
-            <p>Gemstone: {state.resources.gemstone}</p>
-            <button onClick={() => mineGemstone(getClickAmount()* 2)}>Mine Gemstone</button>
-            <button onClick={() => addGemstoneMiningUnit()}>Add Miner</button>
-            <button onClick={() => addGemstoneSentryDrone()}>Add Sentry Drone</button>
-            <button onClick={() => removeGemstoneMiningUnit()}>Remove Miner</button>
-            <button onClick={() => removeGemstoneSentryDrone()}>Remove Sentry Drone</button>
-            <p>{state.gemstoneMiningUnits} mining gemstone.</p>
-            <h2>Automation</h2>
-            <p>Mining units: {miningUnitsToDeploy}, level: {state.miningUnitsLevel}</p>
-            <p>Sentry drones: {sentryDronesToDeploy}, level: {state.sentryDronesLevel}</p>
+            <div className={"automation"} onClick={() => setViewAutomation(prev => !prev)}>
+                <h2 className={"automation__heading"}>Automation</h2>
+                <div className={viewAutomation ? "automation__main automation__main--visible" : "automation__main"}>
+                    <div className={"automation__item"}>
+                        <h3 className={"automation__item-heading"}>Mining Units &#40;Level {state.miningUnitsLevel}&#41;</h3>
+                        <div className={"automation__info"}>
+                            <img src="/imgs/mining_unit.png" className={"automation__image"} />
+                            <div className={"automation__stats"}>
+                                <p>{state.metalMiningUnits + state.crystalMiningUnits + state.gemstoneMiningUnits} deployed</p>
+                                <p>{state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits} available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={"automation__item"}>
+                        <h3 className={"automation__item-heading"}>Sentry Drones &#40;Level {state.sentryDronesLevel}&#41;</h3>
+                        <div className={"automation__info"}>
+                            <img src="/imgs/sentry_drone.png" className={"automation__image"} />
+                            <div className={"automation__stats"}>
+                                <p>{state.metalSentryDrones + state.crystalSentryDrones + state.gemstoneSentryDrones} deployed</p>
+                                <p>{state.availableSentryDrones - state.metalSentryDrones - state.crystalSentryDrones - state.gemstoneSentryDrones} available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
