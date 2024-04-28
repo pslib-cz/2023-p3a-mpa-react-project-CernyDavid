@@ -18,13 +18,13 @@ const MiningGrounds = () => {
     const [viewAutomation, setViewAutomation] = useState(false);
 
     useEffect(() => {
-        setMiningUnitsToDeploy(state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits);
-        setSentryDronesToDeploy(state.availableSentryDrones - state.metalSentryDrones - state.crystalSentryDrones - state.gemstoneSentryDrones);
-
         const serializedState = localStorage.getItem('gameState');
         if (serializedState) {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
+        const state = JSON.parse(serializedState || '{}');
+        setMiningUnitsToDeploy(state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits);
+        setSentryDronesToDeploy(state.availableSentryDrones - state.metalSentryDrones - state.crystalSentryDrones - state.gemstoneSentryDrones);
         setCanBeUpdated(true);
     }, []);
 
