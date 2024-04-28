@@ -54,6 +54,14 @@ const Base = () => {
         }
     };
     const upgradeBarracks = () => {
+        const metalCost = 50 * Math.pow(5, state.barracksLevel);
+        const crystalCost = 50 * Math.pow(5, state.barracksLevel);
+        const gemstoneCost = 50 * Math.pow(5, state.barracksLevel);
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newLevel = state.barracksLevel + 1;
         dispatch({type: ActionType.UPGRADE_BARRACKS, value: newLevel});
     };
@@ -70,12 +78,34 @@ const Base = () => {
         dispatch({type: ActionType.UPGRADE_MAINFRAME, value: newLevel});
     };
     const upgradeArmory = () => {
+        const metalCost = 1000 * Math.pow(5, state.armoryLevel);
+        const crystalCost = 10 * Math.pow(5, state.armoryLevel);
+        const gemstoneCost = 2 * Math.pow(5, state.armoryLevel);
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newLevel = state.armoryLevel + 1;
         dispatch({type: ActionType.UPGRADE_ARMORY, value: newLevel});
     };
     const upgradeArdc = () => {
+        const metalCost = 20 * Math.pow(2, state.ardcLevel);
+        const crystalCost = 50 * Math.pow(2, state.ardcLevel);
+        const gemstoneCost = 10000 * (state.ardcLevel + 1);
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newLevel = state.ardcLevel + 1;
         dispatch({type: ActionType.UPGRADE_ARDC, value: newLevel});
+        if (newLevel % 5 === 0) {
+            dispatch({type: ActionType.UPGRADE_MINING_UNITS, value: state.miningUnitsLevel + 1});
+        }
+        if (newLevel % 10 === 0) {
+            dispatch({type: ActionType.UPGRADE_SENTRY_DRONES, value: state.sentryDronesLevel + 1});
+        }
     };
 
     const createAaiba = () => {
@@ -85,6 +115,14 @@ const Base = () => {
         if (state.barracksLevel === 0) {
             return;
         }
+        const metalCost = 5000 * state.barracksLevel * state.aaibaLevel;
+        const crystalCost = 1000 * state.barracksLevel * state.aaibaLevel;
+        const gemstoneCost = 1000 * state.barracksLevel * state.aaibaLevel;
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newAaibaAvailable = state.aaibaAvailable + 1;
         dispatch({type: ActionType.CREATE_AAIBA, amount: newAaibaAvailable});
     }
@@ -96,6 +134,14 @@ const Base = () => {
         if (state.barracksLevel === 0) {
             return;
         }
+        const metalCost = 50000 * state.barracksLevel * state.slaughterersLevel;
+        const crystalCost = 50000 * state.barracksLevel * state.slaughterersLevel;
+        const gemstoneCost = 100000 * state.barracksLevel * state.slaughterersLevel;
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newSlaughterersAvailable = state.slaughterersAvailable + 1;
         dispatch({type: ActionType.CREATE_SLAUGHTERER, amount: newSlaughterersAvailable});
     }
@@ -103,6 +149,14 @@ const Base = () => {
         if (state.aaibaLevel + 1 > state.armoryLevel) {
             return;
         }
+        const metalCost = 10000 * Math.pow(2, state.aaibaLevel - 1);
+        const crystalCost = 5000 * Math.pow(2, state.aaibaLevel - 1);
+        const gemstoneCost = 2000 * Math.pow(2, state.aaibaLevel - 1);
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newAaibaLevel = state.aaibaLevel + 1;
         dispatch({type: ActionType.UPGRADE_AAIBA, value: newAaibaLevel});
     }
@@ -110,8 +164,27 @@ const Base = () => {
         if (state.slaughterersLevel + 1 > state.armoryLevel) {
             return;
         }
+        const metalCost = 10000 * Math.pow(2, state.slaughterersLevel - 1);
+        const crystalCost = 5000 * Math.pow(2, state.slaughterersLevel - 1);
+        const gemstoneCost = 50000 * Math.pow(2, state.slaughterersLevel - 1);
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newSlaughterersLevel = state.slaughterersLevel + 1;
         dispatch({type: ActionType.UPGRADE_SLAUGHTERER, value: newSlaughterersLevel});
+    }
+
+    const nextMultipleOfFive = (number : number) => {
+        const remainder = number % 5;
+        const nextMultiple = remainder === 0 ? number + 5 : number + (5 - remainder);
+        return nextMultiple;
+    }
+    const nextMultipleOfTen = (number : number) => {
+        const remainder = number % 10;
+        const nextMultiple = remainder === 0 ? number + 10 : number + (10 - remainder);
+        return nextMultiple;
     }
 
     return (
@@ -157,21 +230,138 @@ const Base = () => {
                         <button onClick={(e) => { e.stopPropagation(); upgradeMainframe(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                 </div>
-                <div className={"building"}>
+                <div className={"building"} onClick={() => setShowFactoryMenu(true)}>
                     <h2 className={"building__name"}>Factory &#40;Level {state.factoryLevel}&#41;</h2>
                     <img src="/imgs/factory.png" className={"building__image"} />
                 </div>
-                <div className={"building"}>
+                <div className={showFactoryMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowFactoryMenu(false)}>
+                    <div>
+                        <h2 className={"building-menu__heading"}>Factory</h2>
+                        <p>Produces sophisticated automatons that handle mining for you.</p>
+                        <p>You gain a new automaton for each level, up to level 20.</p>
+                    </div>
+                    <div>
+                        <h3>Mining Units</h3>
+                        <p>The MU-ACW-X2 is a high-end mining automaton, the latest model from the X-series designed by Avalon CyberWorks. It can be used to mine resources of all kinds, ranging from simple metals to the rarest of gemstones.</p>
+                        <p>Currently available: {state.availableMiningUnits}</p>
+                    </div>
+                    <div>
+                        <h3>Sentry Drones</h3>
+                        <p>These sentry drones, known profesionally as Quadwing Autopilot Reconnaissance & Defense Drones, ensure safety on your mining site. Each drone increases the effectivity of all currently working mining units.</p>
+                        <p>Currently available: {state.availableSentryDrones}</p>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade to level {state.factoryLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>{100 * Math.pow(5, state.factoryLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {20 * Math.pow(5, state.factoryLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeFactory(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
+                </div>
+                <div className={"building"} onClick={() => setShowArmoryMenu(true)}>
                     <h2 className={"building__name"}>Armory &#40;Level {state.armoryLevel}&#41;</h2>
                     <img src="/imgs/armory.png" className={"building__image"} />
                 </div>
-                <div className={"building"}>
+                <div className={showArmoryMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowArmoryMenu(false)}>
+                    <div>
+                        <h2 className={"building-menu__heading"}>Armory</h2>
+                        <p>This place serves as a storage for everything dangerous. Arms, ammunution, explosives... you name it.</p>
+                        <p>If you want to elevate your battle androids to new heights, this is the right place.</p>
+                        <p>Armory level determines the highest level your battle androids can achieve.</p>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade AAIBA to level {state.aaibaLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>
+                            {10000 * Math.pow(2, state.aaibaLevel - 1)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {5000 * Math.pow(2, state.aaibaLevel - 1)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {2000 * Math.pow(2, state.aaibaLevel - 1)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeAaiba(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade Slaughterers to level {state.slaughterersLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>
+                            {10000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {5000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {50000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeSlaughterer(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade Armory to level {state.armoryLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>
+                            {1000 * Math.pow(5, state.armoryLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {10 * Math.pow(5, state.armoryLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {2 * Math.pow(5, state.armoryLevel)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeArmory(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
+                </div>
+                <div className={"building"} onClick={() => setShowArdcMenu(true)}>
                     <h2 className={"building__name"}>ARDC &#40;Level {state.ardcLevel}&#41;</h2>
                     <img src="/imgs/ardc.png" className={"building__image"} />
                 </div>
-                <div className={"building"}>
+                <div className={showArdcMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowArdcMenu(false)}>
+                    <div>
+                        <h2 className={"building-menu__heading"}>Automaton Research & Development Center</h2>
+                        <p>This place is constantly occupied by lab rats, engineers and self-proclaimed mad scientists who try to raise your automatons to the next level. Automatons' levels depends on the ARDC level.</p>
+                    </div>
+                    <div>
+                        <p>Reach level {nextMultipleOfFive(state.ardcLevel)} to upgrade Mining Units to level {state.miningUnitsLevel + 1}.</p>
+                        <p>Reach level {nextMultipleOfTen(state.ardcLevel)} to upgrade Sentry Drones to level {state.sentryDronesLevel + 1}.</p>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade to level {state.ardcLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>
+                            {20 * Math.pow(2, state.ardcLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {50 * Math.pow(2, state.ardcLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {10000 * (state.ardcLevel + 1)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeArdc(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
+                </div>
+                <div className={"building"} onClick={() => setShowBarracksMenu(true)}>
                     <h2 className={"building__name"}>Barracks &#40;Level {state.barracksLevel}&#41;</h2>
                     <img src="/imgs/barracks.png" className={"building__image"} />
+                </div>
+                <div className={showBarracksMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowBarracksMenu(false)}>
+                    <div>
+                        <h2 className={"building-menu__heading"}>Barracks</h2>
+                        <p>This is the place where your battle androids are produced, trained and maintained.</p>
+                        <p>Each level increases the capacity of the barracks.</p>
+                        <p>Current capacity: {state.barracksLevel * 2} androids</p>
+                    </div>
+                    <div>
+                        <h3>AAIBA</h3>
+                        <p>The AAIBA &#40;short for Advanced Armament Infantry Battle Android&#41; are easy-to-maintain, yet deadly battle androids that can deal with most obstacles and defeat various enemies.</p>
+                        <p>Currently available: {state.aaibaAvailable}</p>
+                        <p className={"building-menu__cost"}>
+                            {5000 * state.barracksLevel * state.aaibaLevel} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {1000 * state.barracksLevel * state.aaibaLevel} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {1000 * state.barracksLevel * state.aaibaLevel} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); createAaiba(); }} className={"button button--building-menu"}>Create</button>
+                    </div>
+                    <div>
+                        <h3>Slaughterers</h3>
+                        <p>The Slaughterers are the heavy hitters of your army. Covered from head to toe in nigh-indestructible armor made from the chrysalises of a recently discovered butterfly species from the planet Inui and equipped with G-89 ion rifles, they can neutralize most threats with ease.</p>
+                        <p>Currently available: {state.slaughterersAvailable}</p>
+                        <p className={"building-menu__cost"}>
+                            {50000 * state.barracksLevel * state.slaughterersLevel} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {50000 * state.barracksLevel * state.slaughterersLevel} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {100000 * state.barracksLevel * state.slaughterersLevel} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); createSlaughterer(); }} className={"button button--building-menu"}>Create</button>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade to level {state.barracksLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>
+                            {50 * Math.pow(5, state.barracksLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {50 * Math.pow(5, state.barracksLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {50 * Math.pow(5, state.barracksLevel)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeBarracks(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
                 </div>
             </div>
         </div>

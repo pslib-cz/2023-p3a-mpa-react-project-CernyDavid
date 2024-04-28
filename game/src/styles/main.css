@@ -299,7 +299,8 @@ body {
     align-items: center;
     width: 70vw;
     min-height: 460px;
-    max-width: 920px;
+    max-width: 868px;
+    max-height: 600px;
     background-color: #0c1821;
     position: fixed;
     top: 50%;
@@ -308,6 +309,8 @@ body {
     padding: 1em 20px 2em 20px;
     border: 6px solid #1B2A41;
     border-radius: 8px;
+    gap: 2em;
+    overflow-y: scroll;
 }
 
 .building-menu--visible {
@@ -333,6 +336,7 @@ body {
     font-size: 20px;
     line-height: 1em;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .building-menu__level-info {
@@ -350,10 +354,18 @@ body {
     border: 1px solid transparent;
     background-color: lightblue;
     margin: 1em auto 0 auto;
+    width: 120px;
 }
 
 .button--building-menu:hover {
     background-color: #CCC9DC;
+}
+
+.building-menu h3 {
+    margin: 0.25em 0;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: "Sarabun", sans-serif;
 }
 
 @keyframes click-grow {
@@ -439,6 +451,8 @@ body {
     }
     .building-menu {
         padding: 1em 60px 2em 60px;
+        max-height: 1000px;
+        overflow: hidden;
     }
 }
 
