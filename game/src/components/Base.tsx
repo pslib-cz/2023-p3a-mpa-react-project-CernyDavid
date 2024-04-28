@@ -7,6 +7,11 @@ import '../styles/main.css';
 const Base = () => {
     const {state, dispatch} = useContext(GameStateContext);
     const [canBeUpdated, setCanBeUpdated] = useState(false);
+    const [showMainframeMenu, setShowMainframeMenu] = useState(false);
+    const [showFactoryMenu, setShowFactoryMenu] = useState(false);
+    const [showArmoryMenu, setShowArmoryMenu] = useState(false);
+    const [showArdcMenu, setShowArdcMenu] = useState(false);
+    const [showBarracksMenu, setShowBarracksMenu] = useState(false);
 
     useEffect(() => {
         const serializedState = localStorage.getItem('gameState');
@@ -53,6 +58,14 @@ const Base = () => {
         dispatch({type: ActionType.UPGRADE_BARRACKS, value: newLevel});
     };
     const upgradeMainframe = () => {
+        const metalCost = 1000 * Math.pow(2, state.mainframeLevel);
+        const crystalCost = 500 * Math.pow(2, state.mainframeLevel);
+        const gemstoneCost = 200 * Math.pow(2, state.mainframeLevel);
+        if (state.resources.metal < metalCost || state.resources.crystal < crystalCost || state.resources.gemstone < gemstoneCost) {
+            return;
+        }
+        const newResources = { metal: state.resources.metal - metalCost, crystal: state.resources.crystal - crystalCost, gemstone: state.resources.gemstone - gemstoneCost};
+        dispatch({type: ActionType.SET_RESOURCES, payload: newResources});
         const newLevel = state.mainframeLevel + 1;
         dispatch({type: ActionType.UPGRADE_MAINFRAME, value: newLevel});
     };
@@ -126,9 +139,23 @@ const Base = () => {
                 </div>
             </header>
             <div className={"base__main"}>
-                <div className={"building"}>
+                <div className={"building"} onClick={() => setShowMainframeMenu(true)}>
                     <h2 className={"building__name"}>Mainframe &#40;Level {state.mainframeLevel}&#41;</h2>
                     <img src="/imgs/mainframe.png" className={"building__image"} />
+                </div>
+                <div className={showMainframeMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowMainframeMenu(false)}>
+                    <div>
+                        <h2 className={"building-menu__heading"}>Mainframe</h2>
+                        <p>The mainframe is the heart of your base. The higher the level, the more resources you get from mouse clicks.</p>
+                    </div>
+                    <div>
+                        <p className={"building-menu__level-info"}>Upgrade to level {state.mainframeLevel + 1}:</p>
+                        <p className={"building-menu__cost"}>{1000 * Math.pow(2, state.mainframeLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
+                            {500 * Math.pow(2, state.mainframeLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                            {200 * Math.pow(2, state.mainframeLevel)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        </p>
+                        <button onClick={(e) => { e.stopPropagation(); upgradeMainframe(); }} className={"button button--building-menu"}>Upgrade</button>
+                    </div>
                 </div>
                 <div className={"building"}>
                     <h2 className={"building__name"}>Factory &#40;Level {state.factoryLevel}&#41;</h2>
