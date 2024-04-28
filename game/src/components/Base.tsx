@@ -102,7 +102,7 @@ const Base = () => {
     }
 
     return (
-        <div>
+        <div className={"base"}>
             <header className={"header"}>
                 <div className={"location-navigation"}>
                     <Link className={"location-navigation__item" + " location-navigation__item--left" } to="/battle">Battlefield</Link>
@@ -125,26 +125,28 @@ const Base = () => {
                     </div>
                 </div>
             </header>
-            <h2>Buildings</h2>
-            <p>Factory Level: {state.factoryLevel}</p>
-            <button onClick={() => upgradeFactory()}>Upgrade Factory</button>
-            <p>Barracks Level: {state.barracksLevel}</p>
-            <button onClick={() => upgradeBarracks()}>Upgrade Barracks</button>
-            <p>AAIBA: {state.aaibaAvailable}</p>
-            <button onClick={() => createAaiba()}>Create AAIBA</button>
-            <p>Slaughterers: {state.slaughterersAvailable}</p>
-            <button onClick={() => createSlaughterer()}>Create Slaughterer</button>
-            <p>Mainframe Level: {state.mainframeLevel}</p>
-            <button onClick={() => upgradeMainframe()}>Upgrade Mainframe</button>
-            <p>Armory Level: {state.armoryLevel}</p>
-            <button onClick={() => upgradeArmory()}>Upgrade Armory</button>
-            <p>ARDC Level: {state.ardcLevel}</p>
-            <button onClick={() => upgradeArdc()}>Upgrade ARDC</button>
-            <p>AAIBA level: {state.aaibaLevel}</p>
-            <button onClick={() => upgradeAaiba()}>Upgrade AAIBA</button>
-            <p>Slaughterers level: {state.slaughterersLevel}</p>
-            <button onClick={() => upgradeSlaughterer()}>Upgrade Slaughterer</button>
-            <button onClick={() => {dispatch({type: ActionType.RESET})}}>Reset</button>
+            <div className={"base__main"}>
+                <div className={"building"}>
+                    <h2 className={"building__name"}>Mainframe &#40;Level {state.mainframeLevel}&#41;</h2>
+                    <img src="/imgs/mainframe.png" className={"building__image"} />
+                </div>
+                <div className={"building"}>
+                    <h2 className={"building__name"}>Factory &#40;Level {state.factoryLevel}&#41;</h2>
+                    <img src="/imgs/factory.png" className={"building__image"} />
+                </div>
+                <div className={"building"}>
+                    <h2 className={"building__name"}>Armory &#40;Level {state.armoryLevel}&#41;</h2>
+                    <img src="/imgs/armory.png" className={"building__image"} />
+                </div>
+                <div className={"building"}>
+                    <h2 className={"building__name"}>ARDC &#40;Level {state.ardcLevel}&#41;</h2>
+                    <img src="/imgs/ardc.png" className={"building__image"} />
+                </div>
+                <div className={"building"}>
+                    <h2 className={"building__name"}>Barracks &#40;Level {state.barracksLevel}&#41;</h2>
+                    <img src="/imgs/barracks.png" className={"building__image"} />
+                </div>
+            </div>
         </div>
     );
 };
