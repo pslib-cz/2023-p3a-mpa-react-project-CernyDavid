@@ -310,7 +310,7 @@ body {
     border: 6px solid #1B2A41;
     border-radius: 8px;
     gap: 2em;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .building-menu--visible {
@@ -366,6 +366,10 @@ body {
     font-size: 1rem;
     font-weight: bold;
     font-family: "Sarabun", sans-serif;
+}
+
+.building-menu::-webkit-scrollbar {
+    display: none;
 }
 
 @keyframes click-grow {
@@ -451,12 +455,11 @@ body {
     }
     .building-menu {
         padding: 1em 60px 2em 60px;
-        max-height: 1000px;
-        overflow: hidden;
+        max-height: 65vh;
     }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 2000px) {
     .resource {
         width: 400px;
     }
@@ -472,9 +475,7 @@ body {
         height: 300px;
         width: 300px;
     }
-}
 
-@media (min-width: 2000px) {
     .building {
         width: 400px;
     }
@@ -490,5 +491,9 @@ body {
     }
     .base__main {
         margin: 100px auto 0 auto;
+    }
+    .building-menu {
+        max-height: 1000px;
+        overflow: hidden;
     }
 }
