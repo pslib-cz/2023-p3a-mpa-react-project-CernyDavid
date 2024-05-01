@@ -372,6 +372,125 @@ body {
     display: none;
 }
 
+.battlefield {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.1), 
+        rgba(0, 0, 0, 0.1)
+      ),
+      url(/imgs/battle-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+}
+
+.enemy, .soldiers {
+    height: 500px;
+    width: 300px;
+    background-color: #0c1821;
+    border: 8px solid transparent;
+    border-image: url(/imgs/blue-texture.jpg) 30 round;
+}
+.enemy__image {
+    width: 300px;
+    height: 300px;
+}
+.enemy__name, .soldiers__name {
+    font-family: "Sarabun", sans-serif;
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+    font-weight: 600;
+}
+.enemy__desc, .enemy__level{
+    margin: 0.25em 0 0 0;
+}
+.enemy__level, .soldiers__level {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+.enemy__desc {
+    padding: 0 1em;
+    height: 100px;
+    overflow-y: auto;
+}
+.battlefield__main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 80px;
+    gap: 80px;
+    overflow-x: auto;
+    margin-top: 2em;
+}
+
+.soldiers__image {
+    width: 150px;
+    height: 150px;
+}
+.soldiers__level {
+    margin: 0;
+}
+.soldiers__name {
+    margin: 0;
+}
+.soldiers__main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    width: 300px;
+}
+
+.soldiers__controls button {
+    display: block;
+    color: #0c1821;
+    border-radius: 8px;
+    padding: 0.5em 0;
+    font-size: 1em;
+    font-weight: bold;
+    border: 1px solid transparent;
+    background-color: lightblue;
+    margin: 0 auto;
+    width: 80px;
+}
+
+.soldiers__controls button:hover {
+    background-color: #CCC9DC;
+}
+
+.soldiers__amount {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 8px 0 8px 0;
+    line-height: 1em;
+    text-align: center;
+
+}
+.soldiers {
+    padding-top: 1em;
+}
+
+.button--fight {
+    display: block;
+    color: white;
+    border-radius: 8px;
+    padding: 0.3em 0;
+    font-size: 1.4em;
+    font-weight: bold;
+    border: 1px solid transparent;
+    background-color: black;
+    border: 1px solid white;
+    margin: 0.5em auto 0 auto;
+    width: 100px;
+}
+.button--fight:hover {
+    background-color: #0c1821;
+}
+
 @keyframes click-grow {
     0% {
         transform: scale(1);
@@ -457,6 +576,46 @@ body {
         padding: 1em 60px 2em 60px;
         max-height: 65vh;
     }
+    .enemy, .soldiers {
+        width: 400px;
+        height: 680px;
+    }
+    .enemy__image {
+        width: 400px;
+        height: 400px;
+    }
+    .enemy__name, .soldiers__name {
+        font-size: 32px;
+    }
+    .enemy__level, .soldiers__level {
+        font-size: 24px;
+    }
+    .enemy__desc {
+        font-size: 20px;
+        height: 160px;
+    }
+    .battlefield__main {
+        width: 1000px;
+        justify-content: space-between;
+        overflow-x: hidden;
+        padding: 0;
+        gap: 0;
+        margin: 100px auto 0 auto;
+    }
+    .soldiers__image {
+        width: 200px;
+        height: 200px;
+    }
+    .soldiers__main {
+        width: 400px;
+        gap: 2em;
+    }
+    .button--fight {
+        padding: 0.5em 0;
+        font-size: 1.5em;
+        width: 150px;
+        margin-top: 1em;
+    }
 }
 
 @media (min-width: 2000px) {
@@ -495,5 +654,12 @@ body {
     .building-menu {
         max-height: 1000px;
         overflow: hidden;
+    }
+    .battlefield__main {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }

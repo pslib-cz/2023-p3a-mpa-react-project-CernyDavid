@@ -94,7 +94,10 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
         if (!canBeEnded) {
             return;
         }
-        const soldiersHP = aaibaHP.reduce((sum, hp) => sum + hp, 0) + slaughterersHP.reduce((sum, hp) => sum + hp, 0);
+        const maxZero = (hp : number) => Math.max(0, hp);
+        const soldiersHP = 
+        aaibaHP.reduce((sum, hp) => sum + maxZero(hp), 0) +
+        slaughterersHP.reduce((sum, hp) => sum + maxZero(hp), 0);
         if (soldiersHP < 1) {
             clearInterval(fightRound);
             setFightEnded(true);
@@ -106,9 +109,9 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
     }, [aaibaHP, slaughterersHP, canBeEnded]);
 
     return (
-        <div>
+        <div className={"battlefield__main"}>
             <h1>Fight</h1>
-            <p>Enemy: {enemy.name}, level: {enemy.level}, hp: {enemyHP}</p>
+            <p>Enemy: {enemy.name}, hp: {enemyHP}</p>
             <h2>Soldiers</h2>
             <p>Aaiba: {aaibaDeployed}, level: {aaibaLevel}</p>
             {aaibaHP.map((hp, index) => (
