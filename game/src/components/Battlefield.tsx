@@ -89,7 +89,7 @@ const Battlefield = () => {
                 <div className={"battlefield__main"}>
                     <div className={"soldiers"}>
                         <div className={"soldiers__section"}>
-                            <h2 className={"soldiers__name"}>AAIBA</h2>
+                            <h2 className={"soldiers__name soldiers__name--upper-padding"}>AAIBA</h2>
                             <p className={"soldiers__level"}>Level {state.aaibaLevel}</p>
                             <div className={'soldiers__main'}>
                                 <img className={"soldiers__image"} src="/imgs/aaiba.png" />

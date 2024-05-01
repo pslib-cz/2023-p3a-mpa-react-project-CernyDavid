@@ -423,7 +423,7 @@ body {
     padding: 0 80px;
     gap: 80px;
     overflow-x: auto;
-    margin-top: 2em;
+    margin-top: 10vh;
 }
 
 .soldiers__image {
@@ -470,8 +470,8 @@ body {
     text-align: center;
 
 }
-.soldiers {
-    padding-top: 1em;
+.soldiers__name--upper-padding {
+    padding-top: 0.25em;
 }
 
 .button--fight {
