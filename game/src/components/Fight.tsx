@@ -24,6 +24,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
     const [showEndingScreen, setShowEndingScreen] = useState(false);
     const [canBeEnded, setCanBeEnded] = useState(false);
     const [fightEnded, setFightEnded] = useState(false);
+    const [playerWon, setPlayerWon] = useState(false);
 
     useEffect(() => {
         const initialAaibaHP: number[] = [];
@@ -84,7 +85,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             setFightEnded(true);
             dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: 0});
-            dispatch({type: ActionType.SET_ENEMIES_KILLED, value: state.enemiesKilled + 1});
+            setPlayerWon(true);
             setResult(`You have defeated the ${enemy.name}!`);
             setShowEndingScreen(true);
         }
@@ -103,6 +104,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             setFightEnded(true);
             dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: 0});
+            setPlayerWon(false);
             setResult('You have lost the battle');
             setShowEndingScreen(true);
         }
@@ -130,13 +132,18 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
                 <img className={"enemy__image"} src={enemy.imgUrl} />
                 <h2 className={"enemy__name"}>{enemy.name}</h2>
                 <p className={"enemy__level"}>Level {enemy.level}</p>
-                <p className={"enemy__hp"}>{enemy.hp} HP</p>
+                <p className={"enemy__hp"}>{enemyHP} HP</p>
             </div>
             {showEndingScreen && (
                 <div className={"results-screen"}>
                     <p className={"results-screen__heading"}>Result</p>
                     <p>{result}</p>
-                    <button className={"button buton--fight-results"} onClick={() => setShowFight(false)}>Back</button>
+                    <button className={"button buton--fight-results"} onClick={() =>{
+                        if (playerWon) {
+                            dispatch({type: ActionType.SET_ENEMIES_KILLED, value: state.enemiesKilled + 1});
+                        }
+                        setShowFight(false);
+                    }}>Back</button>
                 </div>
             )}
         </div>
