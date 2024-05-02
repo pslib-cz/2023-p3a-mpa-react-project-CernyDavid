@@ -40,7 +40,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
         setSlaughterersHP(initialSlaughterersHP);
     }, []);
 
-    let fightRound: number;
+    let fightRound: NodeJS.Timeout
 
     useEffect(() => {
 
@@ -113,7 +113,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: 0});
             setPlayerWon(false);
-            setResult('You have lost the battle');
+            setResult('You have lost the battle.');
             setShowEndingScreen(true);
         }
     }, [aaibaHP, slaughterersHP, canBeEnded]);
@@ -125,7 +125,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
                 <div className={"soldiers__section"}>
                     {aaibaHP.map((hp, index) => (
                         <div key={index} className={"soldier"}>
-                            <img className={"soldier__image"} src={"/imgs/aaiba.png"} />
+                            <img className={"soldier__image"} src="./imgs/aaiba.png" />
                             <p className={"soldier__name"}>AAIBA {index + 1}</p>
                             <p className={"soldier__hp"}>{formatNumber(hp)} HP</p>
                         </div>
@@ -134,7 +134,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
                 <div className={"soldiers__section"}>
                     {slaughterersHP.map((hp, index) => (
                         <div key={index} className={"soldier"}>
-                            <img className={"soldier__image"} src={"/imgs/slaughterer.png"} />
+                            <img className={"soldier__image"} src="./imgs/slaughterer.png" />
                             <p className={"soldier__name soldier__name--smaller"}>Slaughterer {index + 1}</p>
                             <p className={"soldier__hp"}>{formatNumber(hp)} HP</p>
                         </div>
@@ -142,7 +142,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
                 </div>
             </div>
             <div className={"enemy"}>
-                <img className={"enemy__image"} src={enemy.imgUrl} />
+                <img className={"enemy__image"} src={"./imgs/" + enemy.imgUrl} />
                 <h2 className={"enemy__name"}>{enemy.name}</h2>
                 <p className={"enemy__level"}>Level {enemy.level}</p>
                 <p className={"enemy__hp"}>{formatNumber(enemyHP)} HP</p>

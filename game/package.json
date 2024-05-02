@@ -9,7 +9,8 @@
     "build": "tsc && vite build --base=/2023-p3a-mpa-react-project-CernyDavid/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist -r https://github.com/pslib-cz/2023-p3a-mpa-react-project-CernyDavid.git"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -17,6 +18,7 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@types/node": "^20.12.8",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

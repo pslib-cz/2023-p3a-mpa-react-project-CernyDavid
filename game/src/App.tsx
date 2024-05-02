@@ -10,7 +10,7 @@ import {
 function App() {
   return (
     <>
-    <BrowserRouter>
+    <BrowserRouter basename="/2023-p3a-mpa-react-project-CernyDavid/">
       <Routes>
         <Route path="/" element={ <Base /> } />
         <Route path="/mining" element={ <MiningGrounds /> } />

@@ -202,15 +202,15 @@ const Base = () => {
                 <h1 className={"location-name" + " location-name--mobile-only"}>Base</h1>
                 <div className={"info-bar"} onClick={() => setShowSecretMenu(prev => !prev)}>
                     <div className={"info-bar__item"}>
-                        <img src="/imgs/metal.png" className={"info-bar__icon"} /> 
+                        <img src="./imgs/metal.png" className={"info-bar__icon"} /> 
                         <p>{state.resources.metal}</p>
                     </div>
                     <div className={"info-bar__item"}>
-                        <img src="/imgs/crystal.png" className={"info-bar__icon"} />
+                        <img src="./imgs/crystal.png" className={"info-bar__icon"} />
                         <p>{state.resources.crystal}</p>
                     </div>
                     <div className={"info-bar__item"}>
-                        <img src="/imgs/gemstone.png" className={"info-bar__icon"} />
+                        <img src="./imgs/gemstone.png" className={"info-bar__icon"} />
                         <p>{state.resources.gemstone}</p>
                     </div>
                 </div>
@@ -222,7 +222,7 @@ const Base = () => {
             <div className={"base__main"}>
                 <div className={"building"} onClick={() => setShowMainframeMenu(true)}>
                     <h2 className={"building__name"}>Mainframe &#40;Level {state.mainframeLevel}&#41;</h2>
-                    <img src="/imgs/mainframe.png" className={"building__image"} />
+                    <img src="./imgs/mainframe.png" className={"building__image"} />
                 </div>
                 <div className={showMainframeMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowMainframeMenu(false)}>
                     <div>
@@ -231,16 +231,16 @@ const Base = () => {
                     </div>
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade to level {state.mainframeLevel + 1}:</p>
-                        <p className={"building-menu__cost"}>{1000 * Math.pow(2, state.mainframeLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {500 * Math.pow(2, state.mainframeLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {200 * Math.pow(2, state.mainframeLevel)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                        <p className={"building-menu__cost"}>{1000 * Math.pow(2, state.mainframeLevel)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {500 * Math.pow(2, state.mainframeLevel)} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {200 * Math.pow(2, state.mainframeLevel)} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeMainframe(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                 </div>
                 <div className={"building"} onClick={() => setShowFactoryMenu(true)}>
                     <h2 className={"building__name"}>Factory &#40;Level {state.factoryLevel}&#41;</h2>
-                    <img src="/imgs/factory.png" className={"building__image"} />
+                    <img src="./imgs/factory.png" className={"building__image"} />
                 </div>
                 <div className={showFactoryMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowFactoryMenu(false)}>
                     <div>
@@ -260,15 +260,15 @@ const Base = () => {
                     </div>
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade to level {state.factoryLevel + 1}:</p>
-                        <p className={"building-menu__cost"}>{100 * Math.pow(5, state.factoryLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {20 * Math.pow(5, state.factoryLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
+                        <p className={"building-menu__cost"}>{100 * Math.pow(5, state.factoryLevel)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {20 * Math.pow(5, state.factoryLevel)} <img src="./imgs/crystal.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeFactory(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                 </div>
                 <div className={"building"} onClick={() => setShowArmoryMenu(true)}>
                     <h2 className={"building__name"}>Armory &#40;Level {state.armoryLevel}&#41;</h2>
-                    <img src="/imgs/armory.png" className={"building__image"} />
+                    <img src="./imgs/armory.png" className={"building__image"} />
                 </div>
                 <div className={showArmoryMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowArmoryMenu(false)}>
                     <div>
@@ -280,34 +280,34 @@ const Base = () => {
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade AAIBA to level {state.aaibaLevel + 1}:</p>
                         <p className={"building-menu__cost"}>
-                            {10000 * Math.pow(2, state.aaibaLevel - 1)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {5000 * Math.pow(2, state.aaibaLevel - 1)} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {2000 * Math.pow(2, state.aaibaLevel - 1)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {10000 * Math.pow(2, state.aaibaLevel - 1)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {5000 * Math.pow(2, state.aaibaLevel - 1)} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {2000 * Math.pow(2, state.aaibaLevel - 1)} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeAaiba(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade Slaughterers to level {state.slaughterersLevel + 1}:</p>
                         <p className={"building-menu__cost"}>
-                            {10000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {5000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {50000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {10000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {5000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {50000 * Math.pow(2, state.slaughterersLevel - 1)} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeSlaughterer(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade Armory to level {state.armoryLevel + 1}:</p>
                         <p className={"building-menu__cost"}>
-                            {1000 * Math.pow(5, state.armoryLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {10 * Math.pow(5, state.armoryLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {2 * Math.pow(5, state.armoryLevel)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {1000 * Math.pow(5, state.armoryLevel)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {10 * Math.pow(5, state.armoryLevel)} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {2 * Math.pow(5, state.armoryLevel)} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeArmory(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                 </div>
                 <div className={"building"} onClick={() => setShowArdcMenu(true)}>
                     <h2 className={"building__name"}>ARDC &#40;Level {state.ardcLevel}&#41;</h2>
-                    <img src="/imgs/ardc.png" className={"building__image"} />
+                    <img src="./imgs/ardc.png" className={"building__image"} />
                 </div>
                 <div className={showArdcMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowArdcMenu(false)}>
                     <div>
@@ -321,16 +321,16 @@ const Base = () => {
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade to level {state.ardcLevel + 1}:</p>
                         <p className={"building-menu__cost"}>
-                            {20 * Math.pow(2, state.ardcLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {50 * Math.pow(2, state.ardcLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {10000 * (state.ardcLevel + 1)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {20 * Math.pow(2, state.ardcLevel)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {50 * Math.pow(2, state.ardcLevel)} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {10000 * (state.ardcLevel + 1)} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeArdc(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
                 </div>
                 <div className={"building"} onClick={() => setShowBarracksMenu(true)}>
                     <h2 className={"building__name"}>Barracks &#40;Level {state.barracksLevel}&#41;</h2>
-                    <img src="/imgs/barracks.png" className={"building__image"} />
+                    <img src="./imgs/barracks.png" className={"building__image"} />
                 </div>
                 <div className={showBarracksMenu ? "building-menu building-menu--visible" : "building-menu"} onClick={() => setShowBarracksMenu(false)}>
                     <div>
@@ -344,9 +344,9 @@ const Base = () => {
                         <p>The AAIBA &#40;short for Advanced Armament Infantry Battle Android&#41; are easy-to-maintain, yet deadly battle androids that can deal with most obstacles and defeat various enemies.</p>
                         <p>Currently available: {state.aaibaAvailable}</p>
                         <p className={"building-menu__cost"}>
-                            {5000 * state.barracksLevel * state.aaibaLevel} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {1000 * state.barracksLevel * state.aaibaLevel} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {1000 * state.barracksLevel * state.aaibaLevel} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {5000 * state.barracksLevel * state.aaibaLevel} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {1000 * state.barracksLevel * state.aaibaLevel} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {1000 * state.barracksLevel * state.aaibaLevel} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); createAaiba(); }} className={"button button--building-menu"}>Create</button>
                     </div>
@@ -355,18 +355,18 @@ const Base = () => {
                         <p>The Slaughterers are the heavy hitters of your army. Covered from head to toe in nigh-indestructible armor made from the chrysalises of a recently discovered butterfly species from the planet Inui and equipped with G-89 ion rifles, they can neutralize most threats with ease.</p>
                         <p>Currently available: {state.slaughterersAvailable}</p>
                         <p className={"building-menu__cost"}>
-                            {50000 * state.barracksLevel * state.slaughterersLevel} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {50000 * state.barracksLevel * state.slaughterersLevel} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {100000 * state.barracksLevel * state.slaughterersLevel} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {50000 * state.barracksLevel * state.slaughterersLevel} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {50000 * state.barracksLevel * state.slaughterersLevel} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {100000 * state.barracksLevel * state.slaughterersLevel} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); createSlaughterer(); }} className={"button button--building-menu"}>Create</button>
                     </div>
                     <div>
                         <p className={"building-menu__level-info"}>Upgrade to level {state.barracksLevel + 1}:</p>
                         <p className={"building-menu__cost"}>
-                            {50 * Math.pow(5, state.barracksLevel)} <img src="/imgs/metal.png" className={"cost-icon"} />
-                            {50 * Math.pow(5, state.barracksLevel)} <img src="/imgs/crystal.png" className={"cost-icon"} />
-                            {50 * Math.pow(5, state.barracksLevel)} <img src="/imgs/gemstone.png" className={"cost-icon"} />
+                            {50 * Math.pow(5, state.barracksLevel)} <img src="./imgs/metal.png" className={"cost-icon"} />
+                            {50 * Math.pow(5, state.barracksLevel)} <img src="./imgs/crystal.png" className={"cost-icon"} />
+                            {50 * Math.pow(5, state.barracksLevel)} <img src="./imgs/gemstone.png" className={"cost-icon"} />
                         </p>
                         <button onClick={(e) => { e.stopPropagation(); upgradeBarracks(); }} className={"button button--building-menu"}>Upgrade</button>
                     </div>
