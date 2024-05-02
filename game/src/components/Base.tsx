@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { GameStateContext } from '../providers/GameStateProvider';
 import { ActionType } from '../providers/GameStateProvider';
 import '../styles/main.css';
-import { act } from 'react-dom/test-utils';
+import applyNumberFormatting from '../assets/NumberFormatting';
 
 const Base = () => {
     const {state, dispatch} = useContext(GameStateContext);
@@ -14,7 +14,7 @@ const Base = () => {
     const [showArdcMenu, setShowArdcMenu] = useState(false);
     const [showBarracksMenu, setShowBarracksMenu] = useState(false);
     const [showSecretMenu, setShowSecretMenu] = useState(false);
-
+    
     useEffect(() => {
         const serializedState = localStorage.getItem('gameState');
         if (serializedState) {
@@ -22,6 +22,7 @@ const Base = () => {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
         setCanBeUpdated(true);
+        applyNumberFormatting();
     }, []);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const Base = () => {
             return;
         }
         localStorage.setItem('gameState', JSON.stringify(state));
+        applyNumberFormatting();
     }, [state]);
 
     const upgradeFactory = () => {

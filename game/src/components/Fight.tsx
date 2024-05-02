@@ -3,6 +3,7 @@ import { Enemy } from './Battlefield';
 import { ActionType } from '../providers/GameStateProvider';
 import { useContext } from 'react';
 import { GameStateContext } from '../providers/GameStateProvider';
+import { formatNumber } from '../assets/NumberFormatting';
 
 type FightProps = {
     enemy: Enemy;
@@ -47,6 +48,13 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             return;
         }
 
+        if (aaibaDeployed === 0 && slaughterersDeployed === 0) {
+            setFightEnded(true);
+            setResult('You have lost the battle');
+            setShowEndingScreen(true);
+            return;
+        }
+
         fightRound = setInterval(() => {
             setCanBeEnded(true);
             if (aaibaIndex < aaibaDeployed) {
@@ -86,7 +94,7 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
             dispatch({type: ActionType.SET_AAIBA_DEPLOYED, payload: 0});
             dispatch({type: ActionType.SET_SLAUGHTERERS_DEPLOYED, payload: 0});
             setPlayerWon(true);
-            setResult(`You have defeated the ${enemy.name}!`);
+            setResult(`You have defeated ${enemy.name}!`);
             setShowEndingScreen(true);
         }
     }, [enemyHP]);
@@ -112,33 +120,38 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
 
     return (
         <div className={"battlefield__main"}>
-            <div className={"soldiers"}>
+            <div className={"soldiers soldiers--fight"}>
+                <h2 className={"soldiers__heading"}>Your soldiers</h2>
                 <div className={"soldiers__section"}>
-                    <h2 className={"soldiers__name soldiers__name--upper-padding"}>AAIBA</h2>
-                    <p className={"soldiers__level"}>Level {state.aaibaLevel}</p>
                     {aaibaHP.map((hp, index) => (
-                    <p key={index}>Aaiba {index + 1}: {hp}</p>
+                        <div key={index} className={"soldier"}>
+                            <img className={"soldier__image"} src={"/imgs/aaiba.png"} />
+                            <p className={"soldier__name"}>AAIBA {index + 1}</p>
+                            <p className={"soldier__hp"}>{formatNumber(hp)} HP</p>
+                        </div>
                     ))}
                 </div>
                 <div className={"soldiers__section"}>
-                    <h2 className={"soldiers__name"}>Slaughterers</h2>
-                    <p className={"soldiers__level"}>Level {state.slaughterersLevel}</p>
                     {slaughterersHP.map((hp, index) => (
-                <p key={index}>Slaughterer {index + 1}: {hp}</p>
-                ))}
+                        <div key={index} className={"soldier"}>
+                            <img className={"soldier__image"} src={"/imgs/slaughterer.png"} />
+                            <p className={"soldier__name soldier__name--smaller"}>Slaughterer {index + 1}</p>
+                            <p className={"soldier__hp"}>{formatNumber(hp)} HP</p>
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className={"enemy"}>
                 <img className={"enemy__image"} src={enemy.imgUrl} />
                 <h2 className={"enemy__name"}>{enemy.name}</h2>
                 <p className={"enemy__level"}>Level {enemy.level}</p>
-                <p className={"enemy__hp"}>{enemyHP} HP</p>
+                <p className={"enemy__hp"}>{formatNumber(enemyHP)} HP</p>
             </div>
             {showEndingScreen && (
                 <div className={"results-screen"}>
                     <p className={"results-screen__heading"}>Result</p>
-                    <p>{result}</p>
-                    <button className={"button buton--fight-results"} onClick={() =>{
+                    <p className={"results-screen__result"}>{result}</p>
+                    <button className={"button button--fight-results"} onClick={() =>{
                         if (playerWon) {
                             dispatch({type: ActionType.SET_ENEMIES_KILLED, value: state.enemiesKilled + 1});
                         }

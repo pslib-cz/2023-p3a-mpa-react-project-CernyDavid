@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GameStateContext } from "../providers/GameStateProvider";
 import { ActionType } from "../providers/GameStateProvider";
 import '../styles/main.css';
+import applyNumberFormatting from "../assets/NumberFormatting";
 
 const MiningGrounds = () => {
     const {state, dispatch} = useContext(GameStateContext);
@@ -26,6 +27,7 @@ const MiningGrounds = () => {
         setMiningUnitsToDeploy(state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits);
         setSentryDronesToDeploy(state.availableSentryDrones - state.metalSentryDrones - state.crystalSentryDrones - state.gemstoneSentryDrones);
         setCanBeUpdated(true);
+        applyNumberFormatting();
     }, []);
 
     useEffect(() => {
@@ -33,6 +35,7 @@ const MiningGrounds = () => {
             return;
         }
         localStorage.setItem('gameState', JSON.stringify(state));
+        applyNumberFormatting();
     }, [state]);
 
     let prevMetal : number = state.resources.metal;

@@ -4,6 +4,7 @@ import { GameStateContext } from '../providers/GameStateProvider';
 import { ActionType } from '../providers/GameStateProvider';
 import Fight from './Fight';
 import '../styles/main.css';
+import applyNumberFormatting from '../assets/NumberFormatting';
 
 export type Enemy = {
     name: string;
@@ -33,6 +34,7 @@ const Battlefield = () => {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
         setCanBeUpdated(true);
+        applyNumberFormatting();
     }, []);
 
     useEffect(() => {
@@ -40,6 +42,7 @@ const Battlefield = () => {
             return;
         }
         localStorage.setItem('gameState', JSON.stringify(state));
+        applyNumberFormatting();
     }, [state]);
 
     const deployAaiba = () => {

@@ -390,6 +390,7 @@ body {
     background-color: #0c1821;
     border: 8px solid transparent;
     border-image: url(/imgs/blue-texture.jpg) 30 round;
+    flex-shrink: 0;
 }
 .enemy__image {
     width: 300px;
@@ -444,10 +445,6 @@ body {
     gap: 1em;
 }
 
-.soldiers__section {
-    width: 300px;
-}
-
 .soldiers__controls button {
     display: block;
     color: #0c1821;
@@ -477,7 +474,7 @@ body {
     padding-top: 0.25em;
 }
 
-.button--fight {
+.button--fight, .button--fight-results {
     display: block;
     color: white;
     border-radius: 8px;
@@ -487,7 +484,7 @@ body {
     border: 1px solid transparent;
     background-color: black;
     border: 1px solid white;
-    margin: 0.5em auto 0 auto;
+    margin: 0.25em auto 0 auto;
     width: 100px;
 }
 .button--fight:hover {
@@ -499,14 +496,14 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: lightblue;
-    border: #1B2A41 3px solid;
+    background: lightsteelblue;
+    border: #0c1821 3px solid;
     border-radius: 8px;
-    padding: 1em 2em;
+    padding: 1em 3em;
 }
 .secret-menu button {
     display: block;
-    width: 100%;
+    width: 100px;
     color: white;
     border-radius: 8px;
     padding: 0.6em 1.2em;
@@ -514,7 +511,7 @@ body {
     font-weight: 500;
     border: 1px solid transparent;
     background-color: #0c1821;
-    margin: 0.25em auto;
+    margin: .5em auto;
 }
 
 .results-screen {
@@ -522,6 +519,35 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 320px;
+    background-color: black;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 1em 2em;
+    box-sizing: border-box;
+}
+
+.results-screen__heading {
+    text-align: center;
+    font-size: 2rem;
+    font-family: "Tektur", sans-serif;
+    margin: 0;
+}
+
+.results-screen__result {
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: "Sarabun", sans-serif;
+    margin: 0.5em 0;
+}
+
+.button--fight-results {
+    margin: 2.5em auto 0.5em auto;
+}
+
+.button--fight-results:hover {
+    background-color: #CCC9DC;
+    color: #000;
 }
 
 .enemy__hp {
@@ -536,6 +562,50 @@ body {
     margin: 0;
 }
 
+.soldier {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1em;
+    margin: 0.25em 0;
+}
+.soldier__name {
+    margin: 0;
+    font-family: "Sarabun", sans-serif;
+    font-size: 1.5rem;
+}
+.soldier__name--smaller {
+    font-size: 1rem;
+}
+.soldier__hp {
+    margin: 0;
+    font-size: 1.25rem;
+    color: lime;
+}
+.soldier__image {
+    width: 80px;
+    height: 80px;
+}
+
+.soldiers__heading {
+    text-align: center;
+    font-family: "Tektur", sans-serif;
+    font-size: 1.5rem;
+    margin: 8px 0 0 0;
+}
+
+.soldiers--fight {
+    overflow-y: auto;
+}
+
+.soldiers::-webkit-scrollbar {
+    display: none;
+}
+.enemy__desc::-webkit-scrollbar {
+    display: none;
+}
+
 @keyframes click-grow {
     0% {
         transform: scale(1);
@@ -545,6 +615,12 @@ body {
     }
     100% {
         transform: scale(1);
+    }
+}
+
+@media (min-width: 400px){
+    .info-bar {
+        flex-direction: row;
     }
 }
 
@@ -570,7 +646,6 @@ body {
         width: 220px;
     }
     .info-bar {
-        flex-direction: row;
         gap: 1em;
     }
     .resources-container {
@@ -654,9 +729,6 @@ body {
     .soldiers__main {
         gap: 2em;
     }
-    .soldiers__section {
-        width: 400px;
-    }
     
     .button--fight {
         padding: 0.5em 0;
@@ -667,7 +739,18 @@ body {
     .enemy__hp {
         font-size: 2.5rem;
         height: 160px;
-    }    
+    }
+    .soldier__image {
+        width: 100px;
+        height: 100px;
+    }
+    .soldier__name--smaller {
+        font-size: 1.5em;
+    }
+    .results-screen {
+        padding: 2em 3em;
+        box-sizing: content-box;
+    }
 }
 
 @media (min-width: 2000px) {
