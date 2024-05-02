@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { GameStateContext } from '../providers/GameStateProvider';
 import { ActionType } from '../providers/GameStateProvider';
 import '../styles/main.css';
+import { act } from 'react-dom/test-utils';
 
 const Base = () => {
     const {state, dispatch} = useContext(GameStateContext);
@@ -12,6 +13,7 @@ const Base = () => {
     const [showArmoryMenu, setShowArmoryMenu] = useState(false);
     const [showArdcMenu, setShowArdcMenu] = useState(false);
     const [showBarracksMenu, setShowBarracksMenu] = useState(false);
+    const [showSecretMenu, setShowSecretMenu] = useState(false);
 
     useEffect(() => {
         const serializedState = localStorage.getItem('gameState');
@@ -196,7 +198,7 @@ const Base = () => {
                     <Link className={"location-navigation__item" + " location-navigation__item--right"} to="/mining">Mining Grounds</Link>
                 </div>
                 <h1 className={"location-name" + " location-name--mobile-only"}>Base</h1>
-                <div className={"info-bar"}>
+                <div className={"info-bar"} onClick={() => setShowSecretMenu(prev => !prev)}>
                     <div className={"info-bar__item"}>
                         <img src="/imgs/metal.png" className={"info-bar__icon"} /> 
                         <p>{state.resources.metal}</p>
@@ -211,6 +213,10 @@ const Base = () => {
                     </div>
                 </div>
             </header>
+            {showSecretMenu && <div className={"secret-menu"}>
+                <button onClick={() => dispatch({type: ActionType.SET_RESOURCES, payload: {metal: state.resources.metal + 100000, crystal: state.resources.crystal + 100000, gemstone: state.resources.gemstone + 100000}})}>Cheat</button>
+                <button onClick={() => dispatch({type: ActionType.RESET})}>Reset</button>
+            </div>}
             <div className={"base__main"}>
                 <div className={"building"} onClick={() => setShowMainframeMenu(true)}>
                     <h2 className={"building__name"}>Mainframe &#40;Level {state.mainframeLevel}&#41;</h2>

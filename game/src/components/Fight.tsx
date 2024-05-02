@@ -110,22 +110,33 @@ const Fight : React.FC<FightProps> = ({ enemy, aaibaDeployed, slaughterersDeploy
 
     return (
         <div className={"battlefield__main"}>
-            <h1>Fight</h1>
-            <p>Enemy: {enemy.name}, hp: {enemyHP}</p>
-            <h2>Soldiers</h2>
-            <p>Aaiba: {aaibaDeployed}, level: {aaibaLevel}</p>
-            {aaibaHP.map((hp, index) => (
-                <p key={index}>Aaiba {index + 1}: {hp}</p>
-            ))}
-            <p>Slaughterers: {slaughterersDeployed}, level: {slaughterersLevel}</p>
-            {slaughterersHP.map((hp, index) => (
+            <div className={"soldiers"}>
+                <div className={"soldiers__section"}>
+                    <h2 className={"soldiers__name soldiers__name--upper-padding"}>AAIBA</h2>
+                    <p className={"soldiers__level"}>Level {state.aaibaLevel}</p>
+                    {aaibaHP.map((hp, index) => (
+                    <p key={index}>Aaiba {index + 1}: {hp}</p>
+                    ))}
+                </div>
+                <div className={"soldiers__section"}>
+                    <h2 className={"soldiers__name"}>Slaughterers</h2>
+                    <p className={"soldiers__level"}>Level {state.slaughterersLevel}</p>
+                    {slaughterersHP.map((hp, index) => (
                 <p key={index}>Slaughterer {index + 1}: {hp}</p>
-            ))}
+                ))}
+                </div>
+            </div>
+            <div className={"enemy"}>
+                <img className={"enemy__image"} src={enemy.imgUrl} />
+                <h2 className={"enemy__name"}>{enemy.name}</h2>
+                <p className={"enemy__level"}>Level {enemy.level}</p>
+                <p className={"enemy__hp"}>{enemy.hp} HP</p>
+            </div>
             {showEndingScreen && (
-                <div>
-                    <h2>Result</h2>
+                <div className={"results-screen"}>
+                    <p className={"results-screen__heading"}>Result</p>
                     <p>{result}</p>
-                    <button onClick={() => setShowFight(false)}>Back</button>
+                    <button className={"button buton--fight-results"} onClick={() => setShowFight(false)}>Back</button>
                 </div>
             )}
         </div>

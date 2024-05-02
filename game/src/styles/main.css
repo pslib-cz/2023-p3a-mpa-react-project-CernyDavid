@@ -442,6 +442,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 1em;
+}
+
+.soldiers__section {
     width: 300px;
 }
 
@@ -489,6 +492,48 @@ body {
 }
 .button--fight:hover {
     background-color: #0c1821;
+}
+
+.secret-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: lightblue;
+    border: #1B2A41 3px solid;
+    border-radius: 8px;
+    padding: 1em 2em;
+}
+.secret-menu button {
+    display: block;
+    width: 100%;
+    color: white;
+    border-radius: 8px;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    border: 1px solid transparent;
+    background-color: #0c1821;
+    margin: 0.25em auto;
+}
+
+.results-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.enemy__hp {
+    color: red;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
 @keyframes click-grow {
@@ -607,15 +652,22 @@ body {
         height: 200px;
     }
     .soldiers__main {
-        width: 400px;
         gap: 2em;
     }
+    .soldiers__section {
+        width: 400px;
+    }
+    
     .button--fight {
         padding: 0.5em 0;
         font-size: 1.5em;
         width: 150px;
         margin-top: 1em;
     }
+    .enemy__hp {
+        font-size: 2.5rem;
+        height: 160px;
+    }    
 }
 
 @media (min-width: 2000px) {
