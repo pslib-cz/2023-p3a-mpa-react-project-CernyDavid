@@ -156,42 +156,42 @@ const MiningGrounds = () => {
     }
 
     const addMetalMiningUnit = () => {
-        if (miningUnitsToDeploy < 1) {
+        if (miningUnitsToDeploy < 1 || state.factoryLevel == 0) {
             return;
         }
         setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
         dispatch({type: ActionType.SET_METAL_MINING_UNITS, value: state.metalMiningUnits + 1});
     }
     const addCrystalMiningUnit = () => {
-        if (miningUnitsToDeploy < 1) {
+        if (miningUnitsToDeploy < 1 || state.factoryLevel == 0) {
             return;
         }
         setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
         dispatch({type: ActionType.SET_CRYSTAL_MINING_UNITS, value: state.crystalMiningUnits + 1});
     }
     const addGemstoneMiningUnit = () => {
-        if (miningUnitsToDeploy < 1) {
+        if (miningUnitsToDeploy < 1 || state.factoryLevel == 0) {
             return;
         }
         setMiningUnitsToDeploy(miningUnitsToDeploy - 1);
         dispatch({type: ActionType.SET_GEMSTONE_MINING_UNITS, value: state.gemstoneMiningUnits + 1});
     }
     const addMetalSentryDrone = () => {
-        if (sentryDronesToDeploy < 1) {
+        if (sentryDronesToDeploy < 1 || state.factoryLevel == 0) {
             return;
         }
         setSentryDronesToDeploy(sentryDronesToDeploy - 1);
         dispatch({type: ActionType.SET_METAL_SENTRY_DRONES, value: state.metalSentryDrones + 1});
     }
     const addCrystalSentryDrone = () => {
-        if (sentryDronesToDeploy < 1) {
+        if (sentryDronesToDeploy < 1 || state.factoryLevel == 0) {
             return;
         }
         setSentryDronesToDeploy(sentryDronesToDeploy - 1);
         dispatch({type: ActionType.SET_CRYSTAL_SENTRY_DRONES, value: state.crystalSentryDrones + 1});
     }
     const addGemstoneSentryDrone = () => {
-        if (sentryDronesToDeploy < 1) {
+        if (sentryDronesToDeploy < 1 || state.factoryLevel == 0) {
             return;
         }
         setSentryDronesToDeploy(sentryDronesToDeploy - 1);
