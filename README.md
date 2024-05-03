@@ -1,10 +1,9 @@
 # Space Machinist
 ## Téma
 
-Jedná se o "RPG klikačku", kde hráč získává herní měnu klikáním na určité místo. Za danou měnu potom kupuje (staví) a vylepšuje budovy ve své pevnosti (např. zbrojírna, kasárny...). Tím hráč vylepšují svou armádu a automatizuje produkci herní měny. Se svou armádou poté může bojovat proti NPC nepřátelům (automatické souboje, šance na výhru závisí na statech), čímž hráč zvyšuje svůj level a odemyká další vylepšení.  
-Hra nemá konec, lze ji hrát "donekonečna". Cílem je získat co nejvyšší level a porazit co nejvíce nepřátel.  
+Jedná se o "RPG klikačku", kde hráč získává suroviny klikáním na určité místo. Za dané suroviny potom kupuje (staví) a vylepšuje budovy ve své pevnosti (např. zbrojírna, kasárny...). Tím hráč vylepšuje svou armádu a automatizuje produkci surovin. Se svou armádou poté může bojovat proti NPC nepřátelům (automatické souboje, šance na výhru závisí na statech). 
+Hra nemá konec, lze ji hrát "donekonečna". Cílem je odemknout co nejvíce vylepšení a porazit co nejvíce nepřátel.
 (Jedná se o jakýsi hybrid "idle klikaček" jako je Cookie Clicker a webových "levelovacích" RPG jako Shakes & Fidget.)  
-  
 [HRÁT](https://pslib-cz.github.io/2023-p3a-mpa-react-project-CernyDavid/)
 ## Odkazy pro vývoj
 
