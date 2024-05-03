@@ -5,7 +5,7 @@ Jedná se o "RPG klikačku", kde hráč získává herní měnu klikáním na ur
 Hra nemá konec, lze ji hrát "donekonečna". Cílem je získat co nejvyšší level a porazit co nejvíce nepřátel.  
 (Jedná se o jakýsi hybrid "idle klikaček" jako je Cookie Clicker a webových "levelovacích" RPG jako Shakes & Fidget.)  
   
-[HRÁT](pslib-cz.github.io/2023-p3a-mpa-react-project-CernyDavid/)
+[HRÁT](https://pslib-cz.github.io/2023-p3a-mpa-react-project-CernyDavid/)
 ## Odkazy pro vývoj
 
 Zde budou živé linky na:
