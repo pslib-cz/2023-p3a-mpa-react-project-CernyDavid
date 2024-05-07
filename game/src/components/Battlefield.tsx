@@ -95,7 +95,7 @@ const Battlefield = () => {
                             <h2 className={"soldiers__name soldiers__name--upper-padding"}>AAIBA</h2>
                             <p className={"soldiers__level"}>Level {state.aaibaLevel}</p>
                             <div className={'soldiers__main'}>
-                                <img className={"soldiers__image"} src="./imgs/aaiba.png" />
+                                <img draggable="false" className={"soldiers__image"} src="./imgs/aaiba.png" />
                                 <div className={"soldiers__controls"}>
                                     <button onClick={deployAaiba}>Deploy</button>
                                     <p className={"soldiers__amount"}>{state.aaibaDeployed}</p>
@@ -107,7 +107,7 @@ const Battlefield = () => {
                             <h2 className={"soldiers__name"}>Slaughterers</h2>
                             <p className={"soldiers__level"}>Level {state.slaughterersLevel}</p>
                             <div className={'soldiers__main'}>
-                                <img className={"soldiers__image"} src="./imgs/slaughterer.png" />
+                                <img draggable="false" className={"soldiers__image"} src="./imgs/slaughterer.png" />
                                 <div className={"soldiers__controls"}>
                                     <button onClick={deploySlaughterer}>Deploy</button>
                                     <p className={"soldiers__amount"}>{state.slaughterersDeployed}</p>
@@ -118,7 +118,7 @@ const Battlefield = () => {
                         <button className={"button button--fight"} onClick={() => setShowFight(true)}>Fight</button>
                     </div>
                     <div className={"enemy"}>
-                        <img className={"enemy__image"} src={"./imgs/" + getCurrentEnemy().imgUrl} alt={getCurrentEnemy().name} />
+                        <img draggable="false" className={"enemy__image"} src={"./imgs/" + getCurrentEnemy().imgUrl} alt={getCurrentEnemy().name} />
                         <h2 className={"enemy__name"}>{getCurrentEnemy().name}</h2>
                         <p className={"enemy__level"}>Level {getCurrentEnemy().level}</p>
                         <p className={"enemy__desc"}>{getCurrentEnemy().description}</p>

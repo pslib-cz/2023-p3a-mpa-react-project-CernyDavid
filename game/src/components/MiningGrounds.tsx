@@ -255,15 +255,15 @@ const MiningGrounds = () => {
                 <h1 className={"location-name" + " location-name--mobile-only"}>Mining Grounds</h1>
                 <div className={"info-bar"}>
                     <div className={"info-bar__item"}>
-                        <img src="./imgs/metal.png" className={"info-bar__icon"} /> 
+                        <img draggable="false" src="./imgs/metal.png" className={"info-bar__icon"} /> 
                         <p>{state.resources.metal}</p>
                     </div>
                     <div className={"info-bar__item"}>
-                        <img src="./imgs/crystal.png" className={"info-bar__icon"} />
+                        <img draggable="false" src="./imgs/crystal.png" className={"info-bar__icon"} />
                         <p>{state.resources.crystal}</p>
                     </div>
                     <div className={"info-bar__item"}>
-                        <img src="./imgs/gemstone.png" className={"info-bar__icon"} />
+                        <img draggable="false" src="./imgs/gemstone.png" className={"info-bar__icon"} />
                         <p>{state.resources.gemstone}</p>
                     </div>
                 </div>
@@ -272,11 +272,11 @@ const MiningGrounds = () => {
                 <div className={"resource"}>
                     <div className={"resource__automatons"} onClick={() => setShowMetalAutomatonsMenu(prev => !prev)}>
                         <div className={"automatons__item"}>
-                            <img src="./imgs/mining_unit.png" className={"automatons__image"} />
+                            <img draggable="false" src="./imgs/mining_unit.png" className={"automatons__image"} />
                             <p className={"automatons__amount"}>{state.metalMiningUnits}</p>
                         </div>
                         <div className={"automatons__item"}>
-                            <img src="./imgs/sentry_drone.png" className={"automatons__image"} />
+                            <img draggable="false" src="./imgs/sentry_drone.png" className={"automatons__image"} />
                             <p className={"automatons__amount"}>{state.metalSentryDrones}</p>
                         </div>
                     </div>
@@ -289,17 +289,17 @@ const MiningGrounds = () => {
                     <div className={metalClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineMetal(getClickAmount() * 10);
                         setMetalClicked(true);
                     }} onAnimationEnd={() => setMetalClicked(false)}>
-                        <img src="./imgs/metal.png" className={"resource__image"} draggable="false"/> 
+                        <img draggable="false" src="./imgs/metal.png" className={"resource__image"}/> 
                     </div>
                 </div>
                 <div className={"resource"}>
                     <div className={"resource__automatons"} onClick={() => setShowCrystalAutomatonsMenu(prev => !prev)}>
                         <div className={"automatons__item"}>
-                            <img src="./imgs/mining_unit.png" className={"automatons__image"} />
+                            <img draggable="false" src="./imgs/mining_unit.png" className={"automatons__image"} />
                             <p className={"automatons__amount"}>{state.crystalMiningUnits}</p>
                         </div>
                         <div className={"automatons__item"}>
-                            <img src="./imgs/sentry_drone.png" className={"automatons__image"} />
+                            <img draggable="false" src="./imgs/sentry_drone.png" className={"automatons__image"} />
                             <p className={"automatons__amount"}>{state.crystalSentryDrones}</p>
                         </div>
                     </div>
@@ -312,17 +312,17 @@ const MiningGrounds = () => {
                     <div className={crystalClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineCrystal(getClickAmount() * 5);
                         setCrystalClicked(true);
                     }} onAnimationEnd={() => setCrystalClicked(false)}>
-                        <img src="./imgs/crystal.png" className={"resource__image"} draggable="false"/> 
+                        <img draggable="false" src="./imgs/crystal.png" className={"resource__image"}/> 
                     </div>
                 </div>
                 <div className={"resource"}>
                     <div className={"resource__automatons"} onClick={() => setShowGemstoneAutomatonsMenu(prev => !prev)}>
                         <div className={"automatons__item"}>
-                            <img src="./imgs/mining_unit.png" className={"automatons__image"} />
+                            <img draggable="false" src="./imgs/mining_unit.png" className={"automatons__image"} />
                             <p className={"automatons__amount"}>{state.gemstoneMiningUnits}</p>
                         </div>
                         <div className={"automatons__item"}>
-                            <img src="./imgs/sentry_drone.png" className={"automatons__image"} />
+                            <img draggable="false" src="./imgs/sentry_drone.png" className={"automatons__image"} />
                             <p className={"automatons__amount"}>{state.gemstoneSentryDrones}</p>
                         </div>
                     </div>
@@ -335,7 +335,7 @@ const MiningGrounds = () => {
                     <div className={gemstoneClicked ? "resource__main resource__main--animated" : "resource__main"} onClick={() => {mineGemstone(getClickAmount() * 2);
                         setGemstoneClicked(true);
                     }} onAnimationEnd={() => setGemstoneClicked(false)}>
-                        <img src="./imgs/gemstone.png" className={"resource__image"} draggable="false"/> 
+                        <img draggable="false" src="./imgs/gemstone.png" className={"resource__image"} /> 
                     </div>
                 </div>
             </div>
@@ -345,7 +345,7 @@ const MiningGrounds = () => {
                     <div className={"automation__item"}>
                         <h3 className={"automation__item-heading"}>Mining Units &#40;Level {state.miningUnitsLevel}&#41;</h3>
                         <div className={"automation__info"}>
-                            <img src="./imgs/mining_unit.png" className={"automation__image"} />
+                            <img draggable="false" src="./imgs/mining_unit.png" className={"automation__image"} />
                             <div className={"automation__stats"}>
                                 <p>{state.metalMiningUnits + state.crystalMiningUnits + state.gemstoneMiningUnits} deployed</p>
                                 <p>{state.availableMiningUnits - state.metalMiningUnits - state.crystalMiningUnits - state.gemstoneMiningUnits} available</p>
@@ -355,7 +355,7 @@ const MiningGrounds = () => {
                     <div className={"automation__item"}>
                         <h3 className={"automation__item-heading"}>Sentry Drones &#40;Level {state.sentryDronesLevel}&#41;</h3>
                         <div className={"automation__info"}>
-                            <img src="./imgs/sentry_drone.png" className={"automation__image"} />
+                            <img draggable="false" src="./imgs/sentry_drone.png" className={"automation__image"} />
                             <div className={"automation__stats"}>
                                 <p>{state.metalSentryDrones + state.crystalSentryDrones + state.gemstoneSentryDrones} deployed</p>
                                 <p>{state.availableSentryDrones - state.metalSentryDrones - state.crystalSentryDrones - state.gemstoneSentryDrones} available</p>
