@@ -19,7 +19,7 @@ const MiningGrounds = () => {
     const [viewAutomation, setViewAutomation] = useState(false);
 
     useEffect(() => {
-        const serializedState = localStorage.getItem('gameState');
+        const serializedState = localStorage.getItem('gameStateSpaceMachinist');
         if (serializedState) {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
@@ -34,7 +34,7 @@ const MiningGrounds = () => {
         if (!canBeUpdated) {
             return;
         }
-        localStorage.setItem('gameState', JSON.stringify(state));
+        localStorage.setItem('gameStateSpaceMachinist', JSON.stringify(state));
         applyNumberFormatting();
     }, [state]);
 
@@ -97,7 +97,7 @@ const MiningGrounds = () => {
                 }
                 let gemstoneMiningAmount = 2 * gemstoneMUAmount * Math.pow(2, (MULevel - 1)) * gemstoneSDBoost + (gemstoneMUAmount * gemstoneMPSExtra);
 
-                const oldState = JSON.parse(localStorage.getItem('gameState') || '{}');
+                const oldState = JSON.parse(localStorage.getItem('gameStateSpaceMachinist') || '{}');
                 
                 if (state.metalMiningUnits > 0 && state.crystalMiningUnits > 0 && state.gemstoneMiningUnits > 0) {
                     dispatch({type: ActionType.SET_RESOURCES, payload: {metal: prevMetal + metalMiningAmount, crystal: prevCrystal + crystalMiningAmount, gemstone: prevGemstone + gemstoneMiningAmount}});

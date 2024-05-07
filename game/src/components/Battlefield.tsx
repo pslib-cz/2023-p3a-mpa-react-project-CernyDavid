@@ -29,7 +29,7 @@ const Battlefield = () => {
     const [canBeUpdated, setCanBeUpdated] = useState(false);
 
     useEffect(() => {
-        const serializedState = localStorage.getItem('gameState');
+        const serializedState = localStorage.getItem('gameStateSpaceMachinist');
         if (serializedState) {
             dispatch({type: ActionType.SET_GAMESTATE, payload: JSON.parse(serializedState)});
         }
@@ -41,7 +41,7 @@ const Battlefield = () => {
         if (!canBeUpdated) {
             return;
         }
-        localStorage.setItem('gameState', JSON.stringify(state));
+        localStorage.setItem('gameStateSpaceMachinist', JSON.stringify(state));
         applyNumberFormatting();
     }, [state]);
 
